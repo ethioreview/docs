@@ -17,10 +17,10 @@ pnpm dev            # http://localhost:3000
 
 ### Option A — Import this repo (best for ongoing sync)
 
-1. Push this folder to **`ethioreview/developer-docs`** on GitHub (see [Promote to standalone repo](#promote-to-standalone-repo)).
+1. Push changes to **`ethioreview/docs`** on GitHub (this submodule).
 2. Go to [mintlify.com/start](https://mintlify.com/start).
 3. Choose **Import existing developer docs** (or connect GitHub repository).
-4. Select **`ethioreview/developer-docs`**.
+4. Select **`ethioreview/docs`**.
 5. Install the **Mintlify GitHub App** on that repo — Mintlify will deploy on every push to `main`.
 6. Set custom domain: **Settings → Domains → `docs.ethioreview.com`**.
 
@@ -69,29 +69,31 @@ jobs:
       - uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.DOCS_REPO_PAT }}
-          repository: ethioreview/developer-docs
+          repository: ethioreview/docs
           event-type: sync-openapi
 ```
 
 In `developer-docs` repo, handle dispatch: checkout → copy artifact or pull from backend → commit `openapi.json`.
 
-## Promote to standalone repo
+## Submodule in backend
 
-This folder is scaffolded under `backend/packages/developer-docs` until the remote exists:
+This repo is linked from [ethioreview/backend](https://github.com/ethioreview/backend) as a git submodule at `packages/developer-docs`:
+
+```bash
+git clone --recurse-submodules https://github.com/ethioreview/backend.git
+# or after clone:
+git submodule update --init packages/developer-docs
+```
+
+Work on docs here, push to `ethioreview/docs`, then bump the submodule pointer in backend:
 
 ```bash
 cd packages/developer-docs
-git init
-git add .
-git commit -m "feat: initial Mintlify developer portal"
-git remote add origin https://github.com/ethioreview/developer-docs.git
-git push -u origin main
-```
-
-Then add as submodule in backend (optional):
-
-```bash
-git submodule add https://github.com/ethioreview/developer-docs.git packages/developer-docs
+git checkout main && git pull
+# edit, commit, push
+cd ../..
+git add packages/developer-docs
+git commit -m "chore: bump developer-docs submodule"
 ```
 
 ## Link from product dashboard
