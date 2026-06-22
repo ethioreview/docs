@@ -1,0 +1,51 @@
+---
+title: React embed
+description: ReviewWidget component for React applications.
+---
+
+## Install
+
+```bash
+npm install @ethioreview/review-widget-react @ethioreview/review-widget-core
+```
+
+## Basic usage
+
+```tsx
+import { ReviewWidget } from "@ethioreview/review-widget-react";
+
+export function Testimonials() {
+  return (
+    <ReviewWidget
+      baseUrl="https://api.ethioreview.com"
+      publicKey="pk_live_YOUR_KEY"
+      businessId="YOUR_ORG_PROFILE_ID"
+      minStars={4}
+      limit={5}
+    />
+  );
+}
+```
+
+## With registered widget
+
+```tsx
+<ReviewWidget
+  baseUrl="https://api.ethioreview.com"
+  publicKey="pk_live_YOUR_KEY"
+  widgetId="widget_abc"
+/>
+```
+
+## Components
+
+| Export | Purpose |
+| ------ | ------- |
+| `ReviewWidget` | Full widget (rating + list) |
+| `TestimonialCard` | Single review card with link |
+| `RatingSummary` | Aggregate rating header |
+| `ReviewList` | List of testimonial cards |
+
+Each review includes `reviewUrl` for navigation to EthioReview.
+
+[Next.js SSR →](/sdks/review-widget/overview#nextjs)

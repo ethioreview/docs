@@ -1,0 +1,46 @@
+---
+title: Widget registry
+description: Manage widget configurations from the dashboard or API.
+---
+
+Registered widgets store display settings (type, min stars, theme config) and link to an API client.
+
+## Dashboard
+
+**Integrations → Widgets**
+
+| Field | Description |
+| ----- | ----------- |
+| Name | Internal label |
+| Type | `TESTIMONIAL`, `CAROUSEL`, `GRID`, `LIST`, `BADGE` |
+| Environment | Must match linked API client |
+| Min stars | Minimum rating (default 4) |
+| Config | JSON: `limit`, `language`, `showAvatar`, theme colors |
+
+## API
+
+```bash
+# Create
+POST /api/v1/widgets/registry
+
+# List
+GET /api/v1/widgets/registry?organizationProfileId=org_abc
+
+# Resolve (public, with publishable key)
+GET /api/v1/widgets/resolve/{widgetId}
+Header: X-Widget-Key: pk_live_...
+```
+
+## Embed with widget ID
+
+```html
+<review-widget
+  data-base-url="https://api.ethioreview.com"
+  data-public-key="pk_live_..."
+  data-widget-id="widget_abc"
+></review-widget>
+```
+
+The resolve endpoint returns widget config + reviews + rating in one response.
+
+[Widget overview →](/integrations/widget/overview)

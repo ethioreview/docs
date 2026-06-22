@@ -1,0 +1,39 @@
+---
+title: WordPress & Shopify
+description: CMS integrations for the review widget.
+---
+
+## WordPress
+
+Plugin scaffold in `review-widget/integrations/wordpress-plugin`.
+
+Shortcode:
+
+```
+[ethioreview_widget biz="org_123" key="pk_live_..." widget="widget_abc"]
+```
+
+| Attribute | Description |
+| --------- | ----------- |
+| `biz` | Organization profile ID |
+| `key` | Publishable key |
+| `widget` | Optional widget registry ID |
+
+## Shopify
+
+Liquid snippet in `review-widget/integrations/shopify-extension/snippets/review-widget.liquid`.
+
+Configure theme block settings:
+
+- `public_key` — publishable key from dashboard
+- `business_id` — organization profile ID
+
+## CDN script
+
+Load the built bundle from your CDN or EthioReview CDN:
+
+```html
+<script async src="https://cdn.ethioreview.com/widget.js"></script>
+```
+
+[Web Component guide →](/integrations/widget/embed-web)

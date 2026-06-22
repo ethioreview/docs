@@ -1,0 +1,53 @@
+---
+title: Review widget SDK
+description: NPM packages for embedding EthioReview testimonials.
+---
+
+Monorepo: [github.com/ethioreview/review-widget](https://github.com/ethioreview/review-widget)
+
+## Packages
+
+| Package | Description |
+| ------- | ----------- |
+| `@ethioreview/review-widget-core-client` | HTTP client, types, telemetry |
+| `@ethioreview/review-widget-core` | Re-exports + `WidgetApiClient` |
+| `@ethioreview/review-widget-web-vanilla` | Web Component + script loader |
+| `@ethioreview/review-widget-web-iframe` | iframe helpers |
+| `@ethioreview/review-widget-react` | React components |
+| `@ethioreview/review-widget-next` | Next.js SSR + JSON-LD |
+| `@ethioreview/review-widget-react-native` | WebView URL helper |
+
+## Core client
+
+```typescript
+import { CoreClient } from "@ethioreview/review-widget-core-client";
+
+const client = new CoreClient({
+  baseUrl: "https://api.ethioreview.com",
+  publicKey: "pk_live_...",
+});
+
+const data = await client.fetchReviews("org_abc", { limit: 5, minStars: 4 });
+// data.reviews[].reviewUrl → EthioReview deep link
+```
+
+## Next.js
+
+```typescript
+import { getWidgetReviewsServerData, buildAggregateRatingJsonLd } from "@ethioreview/review-widget-next";
+
+export async function getStaticProps() {
+  const reviews = await getWidgetReviewsServerData({
+    baseUrl: process.env.ETHIOREVIEW_API_URL!,
+    publicKey: process.env.ETHIOREVIEW_PUBLIC_KEY!,
+    businessId: process.env.ETHIOREVIEW_ORG_ID!,
+  });
+  return { props: { reviews } };
+}
+```
+
+## Versioning
+
+Independent semver per package. See review-widget repo `docs/SEMVER_POLICY.md`.
+
+[Package list →](/sdks/review-widget/packages)

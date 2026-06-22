@@ -1,0 +1,45 @@
+---
+title: Sandbox testing
+description: Test widget integration with synthetic testimonials.
+---
+
+Sandbox keys (`pk_test_*`) return **deterministic demo reviews** — no production data is read or written.
+
+## When to use sandbox
+
+- Local development (`http://localhost:*`)
+- Staging / preview deployments
+- CI visual regression tests
+- Developer onboarding before go-live
+
+## Example response shape
+
+```json
+{
+  "businessId": "org_abc",
+  "profileUrl": "https://ethioreview.com/sandbox/organizations/org_abc",
+  "averageRating": 4.8,
+  "reviewCount": 5,
+  "environment": "SANDBOX",
+  "reviews": [
+    {
+      "id": "sandbox_rev_1",
+      "stars": 5,
+      "title": "Excellent service",
+      "text": "...",
+      "reviewUrl": "https://ethioreview.com/sandbox/organizations/org_abc/reviews/sandbox_rev_1",
+      "author": { "name": "Hanna T.", "avatar": null }
+    }
+  ]
+}
+```
+
+## curl test
+
+```bash
+curl -H "X-Widget-Key: pk_test_YOUR_KEY" \
+  -H "Origin: http://localhost:5173" \
+  "https://api.ethioreview.com/api/v1/widgets/businesses/org_abc/reviews?limit=5&minStars=4"
+```
+
+[Go to production →](/environments)

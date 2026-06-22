@@ -1,0 +1,153 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "name": "EthioReview Developers",
+  "description": "Integrate EthioReview reviews, widgets, and Telegram with API keys, SDKs, and webhooks.",
+  "theme": "mint",
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg"
+  },
+  "favicon": "/favicon.svg",
+  "colors": {
+    "primary": "#0D9373",
+    "light": "#14B88A",
+    "dark": "#0A7359"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Dashboard",
+        "href": "https://app.ethioreview.com"
+      },
+      {
+        "label": "Support",
+        "href": "/support"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Get API keys",
+      "href": "https://app.ethioreview.com/settings/integrations"
+    }
+  },
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Guides",
+        "icon": "book-open",
+        "groups": [
+          {
+            "group": "Get started",
+            "icon": "rocket",
+            "pages": [
+              "introduction",
+              "quickstart",
+              "authentication",
+              "environments"
+            ]
+          },
+          {
+            "group": "Review widget",
+            "icon": "code",
+            "pages": [
+              "integrations/widget/overview",
+              "integrations/widget/credentials",
+              "integrations/widget/embed-web",
+              "integrations/widget/embed-react",
+              "integrations/widget/embed-iframe",
+              "integrations/widget/sandbox",
+              "integrations/widget/registry"
+            ]
+          },
+          {
+            "group": "Telegram bot",
+            "icon": "message",
+            "pages": [
+              "integrations/telegram/overview",
+              "integrations/telegram/connect-group",
+              "integrations/telegram/collect-reviews",
+              "integrations/telegram/notifications"
+            ]
+          },
+          {
+            "group": "Dashboard workflows",
+            "icon": "gauge",
+            "pages": [
+              "dashboard/integrations-hub",
+              "dashboard/widget-setup",
+              "dashboard/telegram-setup"
+            ]
+          },
+          {
+            "group": "Resources",
+            "icon": "life-ring",
+            "pages": ["changelog", "support"]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "icon": "square-terminal",
+        "pages": ["api-reference"]
+      },
+      {
+        "tab": "SDKs",
+        "icon": "puzzle-piece",
+        "groups": [
+          {
+            "group": "Review widget SDK",
+            "icon": "box",
+            "pages": [
+              "sdks/review-widget/overview",
+              "sdks/review-widget/packages",
+              "sdks/review-widget/wordpress-shopify"
+            ]
+          }
+        ]
+      }
+    ],
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Dashboard",
+          "href": "https://app.ethioreview.com",
+          "icon": "gauge"
+        },
+        {
+          "anchor": "GitHub",
+          "href": "https://github.com/ethioreview",
+          "icon": "github"
+        },
+        {
+          "anchor": "Support",
+          "href": "/support",
+          "icon": "life-ring"
+        }
+      ]
+    }
+  },
+  "contextual": {
+    "options": [
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/ethioreview"
+    }
+  },
+  "openapi": "openapi.json",
+  "api": {
+    "baseUrl": "https://api.ethioreview.com/api/v1",
+    "auth": {
+      "method": "bearer"
+    }
+  }
+}

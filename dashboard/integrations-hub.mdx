@@ -1,0 +1,41 @@
+---
+title: Integrations hub
+description: Where developers and org admins manage widget and Telegram setup.
+---
+
+The **EthioReview dashboard** (separate from this docs site) is where your team performs setup actions. This developer portal explains *how*; the dashboard is where you *do* it.
+
+## Integrations tab (org dashboard)
+
+| Section | What you do here |
+| ------- | ---------------- |
+| **API Clients** | Create `pk_*` / `sk_*` credentials, set allowed origins |
+| **Widgets** | Register embed configs, copy snippets |
+| **Telegram** | Generate link codes, view connection status, get collection URLs |
+
+## Link from your product
+
+Point integrators to:
+
+- **Docs**: `https://docs.ethioreview.com` (this Mintlify site)
+- **Dashboard**: `https://app.ethioreview.com/settings/integrations`
+
+## Permissions required
+
+| Action | Permission resource |
+| ------ | ------------------- |
+| API clients | `system:api-clients` |
+| Widgets | `system:widgets` |
+| Telegram | `system:telegram-notifications` |
+
+Org **ADMIN** role or higher is typically required.
+
+## Developer vs business user
+
+| Role | Dashboard | Docs |
+| ---- | --------- | ---- |
+| Business owner | Connect Telegram, copy widget snippet | Quickstart |
+| Developer | API clients, allowed origins, server secret | Full API + SDK reference |
+| Agency | Multiple orgs, sandbox → prod promotion | Environments guide |
+
+[Widget setup checklist →](/dashboard/widget-setup)

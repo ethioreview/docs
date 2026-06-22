@@ -1,0 +1,44 @@
+---
+title: Widget setup checklist
+description: Step-by-step dashboard workflow for embedding the review widget.
+---
+
+<Steps>
+  <Step title="Confirm plan includes API access">
+    Widget and API client features require `api_access` on your subscription plan.
+  </Step>
+  <Step title="Create SANDBOX API client">
+    - Environment: **SANDBOX**
+    - Allowed origins: your localhost and staging URLs
+    - Save `pk_test_*` and `sk_test_*` (secret shown once)
+  </Step>
+  <Step title="Create SANDBOX widget">
+    Link to the sandbox client. Set min stars (4+) and limit (5).
+  </Step>
+  <Step title="Embed on staging">
+    Use the copied snippet or React component. Verify synthetic reviews load.
+  </Step>
+  <Step title="Create PRODUCTION API client">
+    - Environment: **PRODUCTION**
+    - Allowed origins: production domain(s) only
+  </Step>
+  <Step title="Create PRODUCTION widget">
+    Match environment to production client.
+  </Step>
+  <Step title="Deploy">
+    Replace `pk_test_*` with `pk_live_*` in production build. Never deploy secrets to the browser.
+  </Step>
+  <Step title="Monitor">
+    Check API client `lastUsedAt` in dashboard. Use widget telemetry events for analytics.
+  </Step>
+</Steps>
+
+## Common issues
+
+| Problem | Fix |
+| ------- | --- |
+| CORS / 403 Origin | Add exact origin to `allowedOrigins` (include `https://`, no trailing path) |
+| Empty reviews | Production org may have no ACTIVE 4+ star reviews yet |
+| Widget misconfigured | Ensure `data-public-key` and `data-business-id` or `data-widget-id` are set |
+
+[Widget credentials →](/integrations/widget/credentials)

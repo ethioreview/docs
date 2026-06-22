@@ -1,0 +1,15 @@
+{
+  "name": "@ethioreview/developer-docs",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Mintlify developer portal for EthioReview integrations (widget, Telegram, API).",
+  "scripts": {
+    "dev": "mintlify dev",
+    "broken-links": "mintlify broken-links",
+    "sync:openapi": "node scripts/sync-openapi.mjs",
+    "sync:sources": "node scripts/sync-openapi.mjs"
+  },
+  "devDependencies": {
+    "mintlify": "^4.2.15"
+  }
+}

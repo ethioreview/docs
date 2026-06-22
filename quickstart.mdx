@@ -1,0 +1,80 @@
+---
+title: Quickstart
+description: Create sandbox API credentials and embed your first review widget.
+---
+
+Get a working widget on a local HTML page using **sandbox** credentials and synthetic demo reviews.
+
+<Prerequisites>
+  - EthioReview organization account with **API access** on your plan
+  - Org admin access to create API clients and widgets
+</Prerequisites>
+
+## 1. Create sandbox API credentials
+
+In the dashboard: **Integrations → API Clients → Create client**
+
+| Field | Example |
+| ----- | ------- |
+| Name | `My site sandbox` |
+| Environment | `SANDBOX` |
+| Allowed origins | `http://localhost:5173`, `https://staging.yoursite.com` |
+
+Save the response immediately — the **secret** (`sk_test_*`) is shown **once**. Copy the **publishable key** (`pk_test_*`) for the browser widget.
+
+## 2. Register a widget (optional)
+
+**Integrations → Widgets → Create**
+
+- Environment: `SANDBOX`
+- Min stars: `4` (top-rated only)
+- Link to the sandbox API client you created
+
+Note the **widget ID** if you want a single-call resolve endpoint.
+
+## 3. Embed on your site
+
+<CodeGroup>
+
+```html Web Component
+<script async src="https://cdn.ethioreview.com/widget.js"></script>
+<review-widget
+  data-base-url="https://api.ethioreview.com"
+  data-public-key="pk_test_YOUR_KEY"
+  data-business-id="YOUR_ORG_PROFILE_ID"
+></review-widget>
+```
+
+```tsx React
+import { ReviewWidget } from "@ethioreview/review-widget-react";
+
+export function Testimonials() {
+  return (
+    <ReviewWidget
+      baseUrl="https://api.ethioreview.com"
+      publicKey="pk_test_YOUR_KEY"
+      businessId="YOUR_ORG_PROFILE_ID"
+      minStars={4}
+    />
+  );
+}
+```
+
+</CodeGroup>
+
+## 4. Verify
+
+Open your page. You should see **synthetic sandbox testimonials** (not production data). Each card links to a demo EthioReview review URL.
+
+<Tip>
+  Use `GET /api/v1/widgets/businesses/{orgId}/reviews` with header `X-Widget-Key: pk_test_...` to debug outside the browser.
+</Tip>
+
+## 5. Go to production
+
+1. Create a **PRODUCTION** API client with your live domain in `allowedOrigins`
+2. Create a production widget linked to that client
+3. Swap `pk_test_*` → `pk_live_*` in your embed snippet
+4. Never put `sk_live_*` in frontend code — use it only on your server
+
+[Credentials deep dive →](/integrations/widget/credentials)

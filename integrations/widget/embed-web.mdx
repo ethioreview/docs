@@ -1,0 +1,50 @@
+---
+title: Web Component embed
+description: Drop-in HTML embed with review-widget custom element.
+---
+
+## Snippet
+
+```html
+<script async src="https://cdn.ethioreview.com/widget.js"></script>
+<review-widget
+  data-base-url="https://api.ethioreview.com"
+  data-public-key="pk_live_YOUR_KEY"
+  data-business-id="YOUR_ORG_PROFILE_ID"
+  data-limit="5"
+></review-widget>
+```
+
+## Attributes
+
+| Attribute | Required | Description |
+| --------- | -------- | ----------- |
+| `data-base-url` | Yes | API base URL |
+| `data-public-key` | Yes | Publishable key (`pk_*`) |
+| `data-business-id` | Yes* | Organization profile ID |
+| `data-widget-id` | Yes* | Registered widget ID (alternative to business-id) |
+| `data-limit` | No | Max reviews (default 5) |
+
+*Provide either `data-business-id` or `data-widget-id`.
+
+## Click-through behavior
+
+Each testimonial is wrapped in a link to the EthioReview review page. Clicks emit a `widget-telemetry` custom event with `type: "onInteraction"`.
+
+```javascript
+document.querySelector("review-widget").addEventListener("widget-telemetry", (e) => {
+  console.log(e.detail);
+});
+```
+
+## WordPress
+
+```
+[ethioreview_widget biz="org_123" key="pk_live_..."]
+```
+
+## Shopify
+
+Add the Liquid snippet from **Integrations → Widgets → Copy embed** in your theme.
+
+[React embed →](/integrations/widget/embed-react)

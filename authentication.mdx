@@ -1,0 +1,61 @@
+---
+title: Authentication
+description: API client credentials, publishable keys, and server secrets.
+---
+
+EthioReview uses **OAuth-style API clients** per organization — not user session tokens for integrations.
+
+## Credential types
+
+| Type | Prefix | Use in | Access |
+| ---- | ------ | ------ | ------ |
+| Publishable key | `pk_live_*` / `pk_test_*` | Browser widget, iframe | Read-only reviews/ratings |
+| Secret | `sk_live_*` / `sk_test_*` | Your backend only | Read + write (scoped) |
+
+<Warning>
+  Never expose `sk_*` secrets in client-side JavaScript, mobile apps, or public repos. Only the publishable key belongs in embed code.
+</Warning>
+
+## Browser widget auth
+
+```http
+GET /api/v1/widgets/businesses/{orgId}/reviews
+X-Widget-Key: pk_live_...
+Origin: https://www.yoursite.com
+```
+
+The server validates the publishable key and checks `Origin` against the client's `allowedOrigins`.
+
+## Server-to-server auth
+
+```http
+GET /api/v1/partner/organizations/{orgId}/reviews
+Authorization: Bearer sk_live_...
+```
+
+Used for:
+
+- Fetching testimonials on your server (SSR, CMS)
+- Ingesting reviews via `POST /api/v1/partner/reviews`
+
+## Scopes
+
+Default scopes on create: `reviews:read`, `reviews:write`.
+
+| Scope | Allows |
+| ----- | ------ |
+| `reviews:read` | Widget + partner read endpoints |
+| `reviews:write` | Partner review ingestion |
+
+## Managing credentials
+
+| Action | API |
+| ------ | --- |
+| Create | `POST /api/v1/api-clients` |
+| List | `GET /api/v1/api-clients` |
+| Rotate secret | `POST /api/v1/api-clients/{id}/rotate-secret` |
+| Revoke | `POST /api/v1/api-clients/{id}/revoke` |
+
+Requires org admin permissions and plan feature `api_access`.
+
+[Environments →](/environments)

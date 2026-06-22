@@ -1,0 +1,33 @@
+---
+title: API Reference
+description: Interactive OpenAPI reference for the EthioReview API.
+---
+
+The API reference is generated from the backend OpenAPI spec.
+
+## Sync locally
+
+From the backend repo:
+
+```bash
+pnpm gen:openapi
+cd packages/developer-docs
+pnpm sync:openapi
+pnpm dev
+```
+
+## Key integration tags
+
+| Tag | Endpoints |
+| --- | --------- |
+| Widgets | Public widget read APIs |
+| ApiClients | Credential management |
+| OrganizationTelegram | Telegram dashboard APIs |
+| Partner API | Server-to-server read/write |
+| Integrations | Bot bridge callbacks |
+
+Browse the interactive reference in the sidebar (powered by `openapi.json`).
+
+<Note>
+  Authenticated dashboard endpoints require a session token. Widget and partner endpoints use API client keys as documented in [Authentication](/authentication).
+</Note>

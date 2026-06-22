@@ -1,0 +1,39 @@
+---
+title: Widget packages
+description: NPM package reference for the review widget monorepo.
+---
+
+## @ethioreview/review-widget-core-client
+
+Shared types and HTTP client.
+
+- `CoreClient` — `fetchReviews`, `fetchRating`, `resolveWidget`
+- Types: `WidgetReview`, `WidgetReviewsResponse`, `WidgetAuthor`
+- Sends `X-Widget-Key` header automatically
+
+## @ethioreview/review-widget-web-vanilla
+
+- `ReviewWidgetElement` — custom element `<review-widget>`
+- `registerReviewWidget()` — register custom element
+- `buildScriptEmbedSnippet()` — copy-paste HTML
+
+## @ethioreview/review-widget-react
+
+- `ReviewWidget` — full widget
+- `TestimonialCard` — single linked review
+- `RatingSummary`, `ReviewList`
+
+## @ethioreview/review-widget-web-iframe
+
+- `buildIframeSnippet()`
+- `attachIframeResizeListener()`
+- `buildPostMessage()` — `resize`, `loaded`, `navigate`
+
+## Samples
+
+Clone [review-widget](https://github.com/ethioreview/review-widget):
+
+- `samples/web-embed` — static HTML demo
+- `samples/synthetic-checks` — CI smoke tests
+
+[WordPress & Shopify →](/sdks/review-widget/wordpress-shopify)

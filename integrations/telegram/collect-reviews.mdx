@@ -1,0 +1,51 @@
+---
+title: Collect reviews in Telegram
+description: Post review collection links to your Telegram group.
+---
+
+## In Telegram (group admin)
+
+After the group is connected, a group admin runs:
+
+```
+/collect
+```
+
+The bot fetches a review collection URL from the backend and posts inline buttons. Customers tap **Leave a review** and complete the flow on the EthioReview website.
+
+## Backend flow
+
+```http
+GET /api/v1/integrations/telegram/collection-link?chatId={telegramChatId}
+Authorization: (bot bridge secret — not for integrators)
+```
+
+For dashboard / org API access:
+
+```http
+GET /api/v1/organizations/{organizationProfileId}/telegram/collection-link
+Authorization: Bearer <session>
+```
+
+## Response fields
+
+| Field | Description |
+| ----- | ----------- |
+| `reviewUrl` | Touchpoint hub URL with `via=telegram` attribution |
+| `organicReviewUrl` | Direct organic review page |
+| `qrImageUrl` | QR code for the touchpoint |
+| `touchpointToken` | Token for analytics |
+
+## Self-hosting the bot bridge
+
+If you operate your own Telegram bridge (advanced):
+
+```env
+TELEGRAM_BOT_TOKEN=...
+BACKEND_API_URL=https://api.ethioreview.com
+BRIDGE_SECRET=<matches TELEGRAM_BRIDGE_SECRET on backend>
+```
+
+See [telegram-bots README](https://github.com/ethioreview/telegram-bots) for deployment.
+
+[Review notifications →](/integrations/telegram/notifications)

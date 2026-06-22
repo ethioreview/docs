@@ -1,0 +1,39 @@
+---
+title: Widget overview
+description: Embed EthioReview top-rated testimonials on any website.
+---
+
+The **Review Widget** displays your organization's best reviews — star rating, reviewer name, avatar, and review text — with each testimonial linking to the full review on EthioReview.
+
+## Features
+
+- Top-rated filter (default 4+ stars, `sort=top`)
+- Public reviewer info only (name, avatar, influencer badge)
+- Click-through to `/organizations/{slug}/reviews/{id}`
+- Production + sandbox environments
+- CORS locked to your `allowedOrigins`
+
+## Integration options
+
+| Method | Best for | Package |
+| ------ | -------- | ------- |
+| Web Component | Any HTML site, WordPress, Shopify | `@ethioreview/review-widget-web-vanilla` |
+| React | React / Vite / CRA | `@ethioreview/review-widget-react` |
+| Next.js | SSR + JSON-LD | `@ethioreview/review-widget-next` |
+| iframe | Strict CSP or legacy CMS | `@ethioreview/review-widget-web-iframe` |
+
+## Public API endpoints
+
+| Method | Path | Auth |
+| ------ | ---- | ---- |
+| GET | `/widgets/businesses/{orgId}/reviews` | `X-Widget-Key` |
+| GET | `/widgets/businesses/{orgId}/rating` | `X-Widget-Key` |
+| GET | `/widgets/resolve/{widgetId}` | `X-Widget-Key` |
+
+## Dashboard setup
+
+1. **Integrations → API Clients** — create client, copy `pk_*` key
+2. **Integrations → Widgets** — configure layout, min stars, theme
+3. Copy embed snippet from dashboard or use SDK docs below
+
+[Credentials →](/integrations/widget/credentials) · [Web embed →](/integrations/widget/embed-web)
