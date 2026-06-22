@@ -1,11 +1,12 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "name": "EthioReview Developers",
+  "name": "EthioReview",
   "description": "Integrate EthioReview reviews, widgets, and Telegram with API keys, SDKs, and webhooks.",
   "theme": "mint",
   "logo": {
-    "light": "/logo/on-light-mode.png",
-    "dark": "/logo/on-dark-mode.png"
+    "light": "/logo/on-light-mode-navbar.png",
+    "dark": "/logo/on-dark-mode-navbar.png",
+    "href": "/introduction"
   },
   "favicon": "/logo/favicon.ico",
   "colors": {

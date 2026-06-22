@@ -1,15 +1,18 @@
-/* EthioReview brand: enlarge navbar logo (Mintlify default is ~24px) */
-nav-logo {
-  height: 44px;
+/* Override Mintlify navbar logo (default Tailwind h-7 = 28px on img.nav-logo) */
+#navbar .h-16 {
+  height: 4.5rem;
 }
 
-nav-logo img {
-  height: 100%;
-  width: auto;
-  max-height: none;
+#navbar img.nav-logo {
+  height: 3.5rem !important; /* 56px */
+  width: auto !important;
+  max-height: none !important;
+  max-width: 15rem !important;
   object-fit: contain;
+  object-position: left center;
 }
 
-#mobile-nav nav-logo {
-  height: 40px;
+#mobile-nav img.nav-logo {
+  height: 2.5rem !important; /* 40px */
+  max-width: 11rem !important;
 }
