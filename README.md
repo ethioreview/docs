@@ -121,5 +121,5 @@ scripts/sync-openapi.mjs
 
 Add brand assets before first public deploy:
 
-- `logo/light.svg`, `logo/dark.svg`
+- `logo/on-light-mode.png`, `logo/on-dark-mode.png`
 - `favicon.svg`
