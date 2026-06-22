@@ -115,11 +115,6 @@
           "icon": "gauge"
         },
         {
-          "anchor": "GitHub",
-          "href": "https://github.com/ethioreview",
-          "icon": "github"
-        },
-        {
           "anchor": "Support",
           "href": "/support",
           "icon": "life-ring"
@@ -139,11 +134,7 @@
       "vscode"
     ]
   },
-  "footer": {
-    "socials": {
-      "github": "https://github.com/ethioreview"
-    }
-  },
+  "footer": {},
   "openapi": "openapi.json",
   "api": {
     "baseUrl": "https://api.ethioreview.com/api/v1",

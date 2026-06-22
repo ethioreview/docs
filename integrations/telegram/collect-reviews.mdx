@@ -11,23 +11,11 @@ After the group is connected, a group admin runs:
 /collect
 ```
 
-The bot fetches a review collection URL from the backend and posts inline buttons. Customers tap **Leave a review** and complete the flow on the EthioReview website.
+The bot posts inline buttons with a review collection link. Customers tap **Leave a review** and complete the flow on the EthioReview website.
 
-## Backend flow
+## What you get
 
-```http
-GET /api/v1/integrations/telegram/collection-link?chatId={telegramChatId}
-Authorization: (bot bridge secret — not for integrators)
-```
-
-For dashboard / org API access:
-
-```http
-GET /api/v1/organizations/{organizationProfileId}/telegram/collection-link
-Authorization: Bearer <session>
-```
-
-## Response fields
+Each collection response includes:
 
 | Field | Description |
 | ----- | ----------- |
@@ -36,16 +24,19 @@ Authorization: Bearer <session>
 | `qrImageUrl` | QR code for the touchpoint |
 | `touchpointToken` | Token for analytics |
 
-## Self-hosting the bot bridge
+## Dashboard API (optional)
 
-If you operate your own Telegram bridge (advanced):
+If you automate setup from your own admin tools, fetch a collection link for a connected group:
 
-```env
-TELEGRAM_BOT_TOKEN=...
-BACKEND_API_URL=https://api.ethioreview.com
-BRIDGE_SECRET=<matches TELEGRAM_BRIDGE_SECRET on backend>
+```http
+GET /api/v1/organizations/{organizationProfileId}/telegram/collection-link
+Authorization: Bearer <session>
 ```
 
-See [telegram-bots README](https://github.com/ethioreview/telegram-bots) for deployment.
+Requires an authenticated dashboard session for your organization.
+
+<Note>
+  Telegram linking and `/collect` are handled by EthioReview-hosted infrastructure. Use the dashboard or bot commands — no self-hosted bridge is required for standard integrations.
+</Note>
 
 [Review notifications →](/integrations/telegram/notifications)

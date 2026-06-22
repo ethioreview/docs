@@ -5,9 +5,9 @@
 
 ## About this project
 
-- Mintlify site for integrators: Review Widget, Telegram bot, and REST API
+- Public Mintlify site for **external integrators** (widget, Telegram, REST API)
 - Pages are MDX files with YAML frontmatter; configuration lives in `docs.json`
-- OpenAPI spec is synced from the backend: `pnpm sync:openapi` (source: `backend/docs/openapi.json`)
+- OpenAPI spec is synced internally — do not document sync pipelines on published pages
 - Live site: `https://docs.ethioreview.com`
 
 ## Terminology
@@ -26,8 +26,21 @@
 - Code formatting for file names, commands, paths, and code references
 - Never document or echo live `sk_*` secrets in examples
 
-## Content boundaries
+## Content boundaries — security
 
-- Document integrator-facing setup and API usage, not internal admin or ops runbooks
-- Dashboard how-tos belong under `dashboard/`; deep API detail in OpenAPI reference
-- SDK specifics link to [review-widget](https://github.com/ethioreview/review-widget) where appropriate
+**Do not publish** in MDX pages (integrator-facing docs):
+
+- Internal repository links (backend, telegram-bots, infrastructure, private monorepos)
+- Backend deployment, queues, bridge services, or environment variable names
+- Self-hosting runbooks for EthioReview-operated services
+- Internal permission slugs, admin-only ops, or maintainer sync workflows
+- Links to private GitHub org repos or release pages
+
+**Do publish** — what integrators need:
+
+- Public API base URL (`https://api.ethioreview.com/api/v1`)
+- Publishable vs secret key usage
+- Dashboard setup steps and public npm SDK packages
+- Widget/Telegram integration guides and OpenAPI reference for public endpoints
+
+Maintainer-only notes belong in `README.md` (not published by Mintlify).

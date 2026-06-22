@@ -9,7 +9,7 @@ When a review is **published** for your organization, EthioReview can push a for
 
 **Dashboard → Integrations → Telegram → Notifications toggle**
 
-Or via API:
+Or via API (authenticated dashboard session):
 
 ```http
 PATCH /api/v1/organizations/{organizationProfileId}/telegram
@@ -20,9 +20,9 @@ Content-Type: application/json
 
 ## Requirements
 
-- Group status must be `CONNECTED`
-- Plan must include Telegram notifications (if gated)
-- Telegram bridge service must be running and reachable by the backend
+- Group status must be **CONNECTED**
+- Notifications enabled in the dashboard or via API
+- Your plan includes Telegram notifications (if gated on your account)
 
 ## Message content
 
@@ -33,23 +33,8 @@ Notifications typically include:
 - Link to the review on EthioReview
 - Organization context
 
-## Architecture (self-hosted bridge)
-
-```
-Review published → Backend queue → POST bridge/ingest/review
-  → HMAC X-Bridge-Signature → Bot sends to linked chatId
-```
-
-Backend env:
-
-```env
-TELEGRAM_BOT_BRIDGE_URL=https://your-bridge.example.com
-TELEGRAM_BRIDGE_SECRET=shared-secret
-TELEGRAM_BOT_USERNAME=YourBotUsername
-```
-
 <Note>
-  Most organizations use EthioReview-hosted infrastructure. Self-hosting the bridge is only needed for custom deployments.
+  Notifications are delivered by EthioReview-hosted infrastructure. No additional setup is required after linking your group and enabling the toggle.
 </Note>
 
 [Connect a group →](/integrations/telegram/connect-group)

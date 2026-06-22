@@ -30,27 +30,22 @@ EthioReview provides **developer tools** for businesses and government organizat
 flowchart LR
   subgraph YourSystems [Your systems]
     Website["Website widget\npk_live_*"]
-    Backend["Your backend\nsk_live_*"]
+    Server["Your server\nsk_live_*"]
     Telegram["Telegram group"]
   end
-  subgraph EthioReview [EthioReview]
-    API["API /api/v1"]
-    BotBridge["Telegram bridge"]
+  subgraph EthioReview [EthioReview platform]
+    API["Public API"]
+    Bot["Telegram bot"]
   end
-  Website -->|X-Widget-Key| API
-  Backend -->|Bearer secret| API
-  Telegram -->|/connect /collect| BotBridge
-  BotBridge --> API
+  Website -->|Publishable key| API
+  Server -->|Secret key| API
+  Telegram -->|/connect /collect| Bot
+  Bot --> API
 ```
 
-## Repositories
-
-| Repo | Purpose |
-| ---- | ------- |
-| [ethioreview/backend](https://github.com/ethioreview/backend) | NestJS API, OpenAPI spec |
-| [ethioreview/review-widget](https://github.com/ethioreview/review-widget) | Widget SDK monorepo (React, Web Component, iframe) |
-| [ethioreview/docs](https://github.com/ethioreview/docs) | This Mintlify site (source of truth for integrator docs) |
-| [ethioreview/telegram-bots](https://github.com/ethioreview/telegram-bots) | Telegram bridge service |
+<Note>
+  Use **publishable keys** (`pk_*`) only in browser embeds. Keep **secret keys** (`sk_*`) on your server — never in client-side code or public repositories.
+</Note>
 
 ## Next steps
 
