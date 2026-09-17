@@ -18,6 +18,7 @@ Every API client and widget belongs to one environment.
 - Data: **synthetic demo testimonials** — isolated from production
 - Same API paths and response shape as production
 - Use during development and CI without affecting live ratings
+- Digital platform partner routes (`/partner/platform/...`) also return synthetic fixtures when the client is sandbox
 
 <Check>
   Sandbox and production credentials are fully separate. Rotating or revoking one does not affect the other.
@@ -40,6 +41,7 @@ flowchart TD
 | API client | `pk_test_*` + `sk_test_*` | `pk_live_*` + `sk_live_*` |
 | Allowed origins | localhost, staging | production domain(s) |
 | Widget registry | SANDBOX widget | PRODUCTION widget |
+| Digital platform | Marketplace scopes on sandbox client | Live marketplace SSR + embeds |
 | Telegram | Optional test group | Live customer group |
 
-[Quickstart →](/quickstart)
+[Quickstart →](/quickstart) · [Digital platform sandbox →](/integrations/digital-platform/sandbox)

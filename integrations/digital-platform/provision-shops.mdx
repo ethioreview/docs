@@ -1,0 +1,69 @@
+---
+title: Provision shops and products
+description: Upsert vendor shops and catalog products with external IDs from your marketplace.
+---
+
+Use your marketplace secret (`sk_test_*` or `sk_live_*`) with scope `marketplace:shops`.
+
+## Upsert a shop
+
+```http
+PUT /api/v1/partner/platform/shops
+Authorization: Bearer sk_test_YOUR_SECRET
+Content-Type: application/json
+```
+
+```json
+{
+  "externalShopId": "vendor_42",
+  "name": "Bole Coffee House",
+  "description": "Specialty coffee in Addis Ababa",
+  "externalShopUrl": "https://marketplace.example.com/shops/vendor_42",
+  "city": "Addis Ababa",
+  "products": [
+    {
+      "externalProductId": "sku_1001",
+      "name": "Yirgacheffe 250g",
+      "productKind": "PHYSICAL"
+    }
+  ]
+}
+```
+
+The call is **idempotent** on `(marketplace, externalShopId)`. Updates refresh name and metadata without creating a duplicate EthioReview account.
+
+## Response highlights
+
+- `organizationProfile.id` / `slug` — EthioReview shop account
+- `urls.claim` — link for the vendor owner to claim the listing
+- `widget.embedSnippet` — shop-level widget markup
+- `products[]` — catalog items that are independent review targets
+
+## Upsert a product later
+
+```http
+PUT /api/v1/partner/platform/shops/vendor_42/products
+Authorization: Bearer sk_test_YOUR_SECRET
+Content-Type: application/json
+```
+
+```json
+{
+  "externalProductId": "sku_1002",
+  "name": "Sidamo 500g",
+  "productKind": "PHYSICAL"
+}
+```
+
+## List shops
+
+```http
+GET /api/v1/partner/platform/shops
+Authorization: Bearer sk_test_YOUR_SECRET
+```
+
+## Claim flow
+
+Shops start as **unclaimed**. Send the vendor the claim URL from the upsert response. After claim, the shop keeps its EthioReview reviews and parent link to your marketplace.
+
+[Display reviews →](/integrations/digital-platform/display-reviews)

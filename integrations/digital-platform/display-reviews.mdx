@@ -1,0 +1,89 @@
+---
+title: Display platform, shop, and product reviews
+description: SSR partner APIs and widget embeds for each review layer.
+---
+
+Choose the display path that fits each page. Keep layers separate so customers see the right rating.
+
+## Platform (marketplace homepage)
+
+### SSR
+
+```http
+GET /api/v1/partner/platform/reviews?limit=5
+Authorization: Bearer sk_live_YOUR_SECRET
+```
+
+```http
+GET /api/v1/partner/platform/rating
+Authorization: Bearer sk_live_YOUR_SECRET
+```
+
+### Widget
+
+```html
+<script async src="https://cdn.ethioreview.com/widget.js"></script>
+<review-widget
+  data-base-url="https://api.ethioreview.com"
+  data-public-key="pk_live_YOUR_KEY"
+  data-business-id="YOUR_MARKETPLACE_ORG_ID"
+></review-widget>
+```
+
+Or ask the API for a ready snippet:
+
+```http
+GET /api/v1/partner/platform/widget
+Authorization: Bearer sk_live_YOUR_SECRET
+```
+
+## Shop (seller page)
+
+```http
+GET /api/v1/partner/platform/shops/{externalShopId}/reviews
+Authorization: Bearer sk_live_YOUR_SECRET
+```
+
+```http
+GET /api/v1/partner/platform/shops/{externalShopId}/widget
+Authorization: Bearer sk_live_YOUR_SECRET
+```
+
+Use the shop publishable key from the widget response when embedding on a vendor storefront.
+
+## Product (SKU page)
+
+Widgets are organization-scoped. For product pages use the partner SSR API (recommended):
+
+```http
+GET /api/v1/partner/platform/shops/{externalShopId}/products/{externalProductId}/reviews?limit=10
+Authorization: Bearer sk_live_YOUR_SECRET
+```
+
+```http
+GET /api/v1/partner/platform/shops/{externalShopId}/products/{externalProductId}/rating
+Authorization: Bearer sk_live_YOUR_SECRET
+```
+
+Render the JSON in your own product UI so the rating matches that SKU only.
+
+## React widget example (shop / platform)
+
+```tsx
+import { ReviewWidget } from "@ethioreview/review-widget-react";
+
+export function ShopReviews({ orgId }: { orgId: string }) {
+  return (
+    <ReviewWidget
+      baseUrl="https://api.ethioreview.com"
+      publicKey={process.env.NEXT_PUBLIC_ETHIOREVIEW_PUBLIC_KEY!}
+      businessId={orgId}
+      minStars={4}
+    />
+  );
+}
+```
+
+Use `pk_test_*` in development. See [Sandbox](/integrations/digital-platform/sandbox).
+
+[SDK overview →](/sdks/review-widget/overview)

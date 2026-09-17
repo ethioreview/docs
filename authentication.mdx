@@ -46,6 +46,9 @@ Default scopes on create: `reviews:read`, `reviews:write`.
 | ----- | ------ |
 | `reviews:read` | Widget + partner read endpoints |
 | `reviews:write` | Partner review ingestion |
+| `marketplace:shops` | Digital platform partner APIs (provision shops, read platform/shop/product reviews) |
+
+Marketplace partners typically use `marketplace:shops` + `reviews:read`.
 
 ## Managing credentials
 
@@ -58,4 +61,6 @@ Default scopes on create: `reviews:read`, `reviews:write`.
 
 Requires org admin permissions and plan feature `api_access`.
 
-[Environments →](/environments)
+Marketplace operators can also create sandbox keys from **Integrations → Digital platform**.
+
+[Environments →](/environments) · [Digital platforms →](/integrations/digital-platform/overview)

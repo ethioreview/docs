@@ -1,0 +1,51 @@
+---
+title: Digital platform sandbox
+description: Create sk_test_ / pk_test_ marketplace keys and test with synthetic reviews.
+---
+
+Use **sandbox** credentials while you build. Sandbox partner API responses use the same JSON shape as production but return **synthetic** reviews.
+
+## Create sandbox keys
+
+In the EthioReview business dashboard:
+
+1. Open **Integrations → Digital platform**
+2. Enter allowed origins (include `http://localhost:3000` for local work)
+3. Click **Create sandbox API client**
+4. Copy the **secret** (`sk_test_*`) immediately — it is shown once
+5. Keep the **publishable key** (`pk_test_*`) for browser widgets
+
+You can also create a sandbox client under **Integrations → API Clients** with:
+
+| Field | Value |
+| ----- | ----- |
+| Environment | `SANDBOX` |
+| Scopes | `marketplace:shops`, `reviews:read` |
+| Allowed origins | localhost + staging domains |
+
+## Auth header
+
+```http
+GET /api/v1/partner/platform
+Authorization: Bearer sk_test_YOUR_SECRET
+```
+
+Never put `sk_*` in browser JavaScript, mobile apps, or public repos.
+
+## What sandbox returns
+
+| Endpoint family | Sandbox behavior |
+| --------------- | ---------------- |
+| `/partner/platform/reviews` | Synthetic platform testimonials |
+| `/partner/platform/shops/.../reviews` | Synthetic shop testimonials |
+| `/partner/platform/shops/.../products/.../reviews` | Synthetic product testimonials |
+| Widget with `pk_test_*` | Same synthetic feed as widget sandbox |
+
+## Go live
+
+1. Create a **PRODUCTION** API client with live domains in `allowedOrigins`
+2. Swap `sk_test_*` → `sk_live_*` on your server
+3. Swap `pk_test_*` → `pk_live_*` in embeds
+4. Remove sandbox secrets from production env files
+
+[Environments →](/environments) · [Provision shops →](/integrations/digital-platform/provision-shops)

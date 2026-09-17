@@ -28,7 +28,7 @@
     "primary": {
       "type": "button",
       "label": "Get API keys",
-      "href": "https://app.ethioreview.com/settings/integrations"
+      "href": "https://app.ethioreview.com"
     }
   },
   "navigation": {
@@ -63,6 +63,16 @@
             ]
           },
           {
+            "group": "Digital platforms",
+            "icon": "store",
+            "pages": [
+              "integrations/digital-platform/overview",
+              "integrations/digital-platform/sandbox",
+              "integrations/digital-platform/provision-shops",
+              "integrations/digital-platform/display-reviews"
+            ]
+          },
+          {
             "group": "Telegram bot",
             "icon": "message",
             "pages": [
@@ -78,6 +88,7 @@
             "pages": [
               "dashboard/integrations-hub",
               "dashboard/widget-setup",
+              "dashboard/digital-platform-setup",
               "dashboard/telegram-setup"
             ]
           },

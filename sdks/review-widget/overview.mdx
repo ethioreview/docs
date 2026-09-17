@@ -46,6 +46,17 @@ export async function getStaticProps() {
 }
 ```
 
+## Marketplace pages
+
+Use the widget for **platform** and **shop** pages (`businessId` = marketplace or vendor org). For **product** SKU pages, fetch reviews with the partner SSR API so the rating stays product-scoped:
+
+```bash
+curl -H "Authorization: Bearer sk_test_YOUR_SECRET" \
+  "https://api.ethioreview.com/api/v1/partner/platform/shops/vendor_42/products/sku_1001/reviews"
+```
+
+Full guide: [Display reviews](/integrations/digital-platform/display-reviews).
+
 ## Versioning
 
 Independent semver per package. Pin versions in your `package.json` for reproducible builds.

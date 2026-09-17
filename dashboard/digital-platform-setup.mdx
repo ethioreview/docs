@@ -1,0 +1,33 @@
+---
+title: Digital platform setup
+description: Dashboard checklist from sandbox keys to production marketplace embeds.
+---
+
+Use this checklist after EthioReview approves your digital platform application.
+
+## Sandbox
+
+| Step | Where | Done when |
+| ---- | ----- | --------- |
+| 1. Open Digital platform | **Integrations → Digital platform** | Page loads for your marketplace org |
+| 2. Create sandbox client | Same page | You have `pk_test_*` and stored `sk_test_*` |
+| 3. Add localhost origins | Allowed origins | Local embeds load without CORS errors |
+| 4. Upsert a test shop | Your backend → `PUT /partner/platform/shops` | Shop appears in list |
+| 5. Fetch sandbox reviews | `GET /partner/platform/reviews` | Synthetic reviews return |
+
+## Production
+
+| Step | Where | Done when |
+| ---- | ----- | --------- |
+| 1. Create production client | **API Clients** or Digital platform page | `pk_live_*` / `sk_live_*` issued |
+| 2. Restrict allowed origins | Live storefront domains only | Staging origins removed |
+| 3. Deploy server secret | Your secrets manager | `sk_live_*` never in frontend |
+| 4. Wire homepage / shop / SKU | Your marketplace UI | Each layer shows the correct rating |
+| 5. Share claim links | Vendor onboarding email | Sellers can claim EthioReview accounts |
+
+## Related docs
+
+- [Overview](/integrations/digital-platform/overview)
+- [Sandbox](/integrations/digital-platform/sandbox)
+- [Provision shops](/integrations/digital-platform/provision-shops)
+- [Display reviews](/integrations/digital-platform/display-reviews)
