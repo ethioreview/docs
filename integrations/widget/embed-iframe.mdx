@@ -3,16 +3,31 @@ title: iframe embed
 description: Sandboxed iframe for strict CSP environments.
 ---
 
-## Snippet
+The iframe embed loads EthioReview's hosted `widget-frame.html` inside a sandboxed frame. Use it when your CSP blocks third-party scripts or custom elements.
+
+## Who this is for
+
+Legacy CMS platforms, strict Content-Security-Policy sites, and hosts that only allow iframe embeds.
+
+## Dashboard steps
+
+1. **Integrations → API keys** — create a publishable key
+2. Add the **parent page** origin to allowed origins
+3. **Integrations → Review widgets** — optional `widgetId` for registry resolve
+4. Copy an iframe snippet from **Integrations → Sandbox test** when available
+
+## Copy-paste snippet
 
 ```html
 <iframe
-  src="https://cdn.ethioreview.com/widget-frame.html?publicKey=pk_live_...&businessId=org_123"
+  src="https://cdn.ethioreview.com/widget-frame.html?publicKey=pk_live_YOUR_KEY&widgetId=YOUR_WIDGET_ID&baseUrl=https://api.ethioreview.com"
   loading="lazy"
   sandbox="allow-scripts allow-same-origin allow-popups"
   style="width:100%;height:420px;border:0;"
 ></iframe>
 ```
+
+You can pass `businessId` instead of `widgetId`.
 
 ## Helper (npm)
 
@@ -21,13 +36,13 @@ import { buildIframeSnippet, attachIframeResizeListener } from "@ethioreview/rev
 
 const html = buildIframeSnippet({
   host: "https://cdn.ethioreview.com",
-  publicKey: "pk_live_...",
-  businessId: "org_123",
+  publicKey: "pk_live_YOUR_KEY",
+  businessId: "YOUR_ORG_PROFILE_ID",
   height: 420,
 });
 ```
 
-## Navigation
+## Navigation and resize
 
 Review clicks inside the iframe post a `navigate` message to the parent window. Use `attachIframeResizeListener` for auto-height.
 
@@ -35,4 +50,10 @@ Review clicks inside the iframe post a `navigate` message to the parent window. 
   Include `allow-popups` in the sandbox attribute so review links can open EthioReview in a new tab.
 </Warning>
 
-[Web Component →](/integrations/widget/embed-web)
+## One failure mode
+
+**Frame loads but reviews never appear** — missing `baseUrl` query param or origin not allowlisted for the parent site. Confirm the iframe `src` includes `publicKey` and either `widgetId` or `businessId`.
+
+## Next
+
+[Web Component →](/integrations/widget/embed-web) · [React Native →](/sdks/review-widget/react-native)

@@ -1,0 +1,78 @@
+---
+title: React Native
+description: Embed EthioReview reviews in React Native with a WebView pointing at the widget frame.
+---
+
+`@ethioreview/review-widget-react-native` renders the hosted widget frame inside a `WebView`. Use it when you need testimonials in a mobile app without rebuilding the layout in native UI.
+
+## Who this is for
+
+React Native (and Expo) apps that can allow a WebView and already have a publishable key.
+
+## Dashboard steps
+
+1. **Integrations → API keys** — create sandbox or production keys
+2. Add any origins your WebView host requires (and keep secrets off-device)
+3. **Integrations → Review widgets** — create a matching-environment widget
+4. Prefer `pk_test_*` while developing the mobile screen
+
+## Install
+
+```bash
+npm install @ethioreview/review-widget-react-native react-native-webview
+```
+
+## Copy-paste
+
+```tsx
+import { ReactNativeReviewWidget } from "@ethioreview/review-widget-react-native";
+import { StyleSheet } from "react-native";
+
+export function ReviewsScreen() {
+  return (
+    <ReactNativeReviewWidget
+      host="https://cdn.ethioreview.com"
+      baseUrl="https://api.ethioreview.com"
+      publicKey="pk_test_YOUR_KEY"
+      widgetId="YOUR_SANDBOX_WIDGET_ID"
+      style={styles.widget}
+    />
+  );
+}
+
+const styles = StyleSheet.create({
+  widget: { flex: 1, minHeight: 420 },
+});
+```
+
+You can also build the URL yourself:
+
+```ts
+import { getWidgetWebViewUrl } from "@ethioreview/review-widget-react-native";
+
+const uri = getWidgetWebViewUrl({
+  host: "https://cdn.ethioreview.com",
+  baseUrl: "https://api.ethioreview.com",
+  publicKey: "pk_test_YOUR_KEY",
+  businessId: "YOUR_ORG_PROFILE_ID",
+});
+```
+
+## Props
+
+| Prop | Required | Description |
+| ---- | -------- | ----------- |
+| `host` | Yes | CDN host that serves `widget-frame.html` |
+| `publicKey` | Yes | Publishable key (`pk_test_*` or `pk_live_*`) |
+| `widgetId` | One of | Dashboard widget ID |
+| `businessId` | One of | Organization profile ID |
+| `baseUrl` | No | API host (default via frame query) |
+| `style` | No | React Native style for the WebView |
+
+## One failure mode
+
+**Blank WebView** — confirm `host` serves `widget-frame.html`, the key matches the widget environment, and you did not embed an `sk_*` secret. Debug first in a desktop browser with the same query string.
+
+## Next
+
+[SDK overview →](/sdks/review-widget/overview) · [iframe embed →](/integrations/widget/embed-iframe)

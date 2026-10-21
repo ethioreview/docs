@@ -5,21 +5,31 @@ description: Create sk_test_ / pk_test_ marketplace keys and test with synthetic
 
 Use **sandbox** credentials while you build. Sandbox partner API responses use the same JSON shape as production but return **synthetic** reviews.
 
+## Who this is for
+
+Marketplace engineers wiring shop upsert and SSR review APIs before production traffic.
+
 ## Create sandbox keys
 
 In the EthioReview business dashboard:
 
-1. Open **Integrations → Digital platform**
-2. Enter allowed origins (include `http://localhost:3000` for local work)
-3. Click **Create sandbox API client**
-4. Copy the **secret** (`sk_test_*`) immediately — it is shown once
-5. Keep the **publishable key** (`pk_test_*`) for browser widgets
+<Steps>
+  <Step title="Open Digital platform">
+    Go to **Integrations → Digital platform**.
+  </Step>
+  <Step title="Enter allowed origins">
+    Include `http://localhost:3000` for local widget work.
+  </Step>
+  <Step title="Create sandbox API client">
+    Click **Create sandbox API client** (or equivalent). Copy the **secret** (`sk_test_*`) immediately — it is shown once. Keep the **publishable key** (`pk_test_*`) for browser widgets.
+  </Step>
+</Steps>
 
-You can also create a sandbox client under **Integrations → API Clients** with:
+You can also create a sandbox client under **Integrations → API keys** with:
 
 | Field | Value |
 | ----- | ----- |
-| Environment | `SANDBOX` |
+| Environment | **SANDBOX** |
 | Scopes | `marketplace:shops`, `reviews:read` |
 | Allowed origins | localhost + staging domains |
 
@@ -29,6 +39,8 @@ You can also create a sandbox client under **Integrations → API Clients** with
 GET /api/v1/partner/platform
 Authorization: Bearer sk_test_YOUR_SECRET
 ```
+
+Base URL: `https://api.ethioreview.com/api/v1`
 
 Never put `sk_*` in browser JavaScript, mobile apps, or public repos.
 
@@ -41,9 +53,13 @@ Never put `sk_*` in browser JavaScript, mobile apps, or public repos.
 | `/partner/platform/shops/.../products/.../reviews` | Synthetic product testimonials |
 | Widget with `pk_test_*` | Same synthetic feed as widget sandbox |
 
+## One failure mode
+
+**Using `pk_test_*` as a Bearer secret** — partner routes require `sk_test_*`. Publishable keys are only for `X-Widget-Key` browser calls.
+
 ## Go live
 
-1. Create a **PRODUCTION** API client with live domains in `allowedOrigins`
+1. Create a **PRODUCTION** API client under **Integrations → API keys** (or Digital platform) with live domains in allowed origins
 2. Swap `sk_test_*` → `sk_live_*` on your server
 3. Swap `pk_test_*` → `pk_live_*` in embeds
 4. Remove sandbox secrets from production env files

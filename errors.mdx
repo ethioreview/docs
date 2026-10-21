@@ -1,0 +1,86 @@
+---
+title: Errors
+description: Common HTTP status codes and how to fix EthioReview API and widget failures.
+---
+
+EthioReview returns standard HTTP status codes. Error bodies usually include a short `message` you can log or surface in your own UI.
+
+## Status codes
+
+| Status | Meaning | Typical cause |
+| ------ | ------- | ------------- |
+| `400` | Bad request | Missing fields, invalid widget config, or mismatched environment |
+| `401` | Unauthorized | Missing or invalid `Authorization` / `X-Widget-Key` |
+| `403` | Forbidden | Origin not allowlisted, wrong org, or sandbox/production mismatch |
+| `404` | Not found | Unknown organization, widget, or shop ID |
+| `429` | Too many requests | Rate limit exceeded — retry with backoff |
+| `5xx` | Server error | Transient platform issue — retry later |
+
+## Auth failures
+
+### Missing or wrong key
+
+```http
+GET /api/v1/widgets/businesses/{orgId}/reviews
+X-Widget-Key: pk_test_WRONG
+```
+
+Returns `401` or `403` if the publishable key is missing, revoked, or not recognized.
+
+### Secret key in the browser
+
+Partner routes expect:
+
+```http
+Authorization: Bearer sk_test_YOUR_SECRET
+```
+
+If you send a publishable key (`pk_*`) as a Bearer token, the request fails. Keep secrets on your server only.
+
+## Origin / CORS failures
+
+Browser widget calls check `Origin` (or `Referer`) against the API client's **allowed origins**.
+
+Symptoms:
+
+- Network tab shows `403`
+- Console shows a CORS error
+- Dashboard **Sandbox test** preview is blank
+
+Fix: add the exact origin (scheme + host + port, no path) under **Integrations → API keys**. See [Allowed origins](/api-keys/allowed-origins).
+
+## Environment mismatch
+
+A sandbox key (`pk_test_*`) cannot resolve a production widget, and a live key (`pk_live_*`) cannot resolve a sandbox widget. The API responds with `403` and a message like **Widget environment mismatch**.
+
+<Warning>
+  Always pair `pk_test_*` with a **Sandbox** widget and `pk_live_*` with a **Production** widget.
+</Warning>
+
+## Empty reviews (not always an error)
+
+A `200` with an empty `reviews` array means the request succeeded but no testimonials matched your filters (for example `minStars: 4` on an org with no active 4+ star reviews).
+
+In **sandbox**, you should always see synthetic testimonials when the key and widget are configured correctly. If sandbox returns empty, check the key environment and allowed origins first.
+
+## Debugging checklist
+
+<Steps>
+  <Step title="Confirm the key prefix">
+    `pk_test_*` for sandbox, `pk_live_*` for production.
+  </Step>
+  <Step title="Confirm the widget environment">
+    **Integrations → Review widgets** — environment must match the key.
+  </Step>
+  <Step title="Confirm allowed origins">
+    Exact match for localhost or your live domain.
+  </Step>
+  <Step title="Hit the API directly">
+    ```bash
+    curl -H "X-Widget-Key: pk_test_YOUR_KEY" \
+      "https://api.ethioreview.com/api/v1/widgets/businesses/YOUR_ORG_ID/reviews?limit=5"
+    ```
+  </Step>
+</Steps>
+
+[Authentication →](/authentication) · [Allowed origins →](/api-keys/allowed-origins)

@@ -1,0 +1,60 @@
+---
+title: Create production API keys
+description: Create pk_live_* / sk_live_* credentials for your live website.
+---
+
+Production API keys return **real ACTIVE reviews** for your organization profile. Create them only after sandbox embeds work.
+
+## Who this is for
+
+Teams ready to ship a public website, mobile WebView, or server-side partner integration.
+
+## Dashboard steps
+
+<Steps>
+  <Step title="Open API keys">
+    Go to **Integrations → API keys** in the [dashboard](https://app.ethioreview.com).
+  </Step>
+  <Step title="Create a PRODUCTION client">
+    | Field | Value |
+    | ----- | ----- |
+    | Name | e.g. `Marketing site` |
+    | Environment | **PRODUCTION** |
+    | Allowed origins | Live domains only (`https://www.yoursite.com`) |
+  </Step>
+  <Step title="Copy credentials once">
+    - **Publishable key** — `pk_live_*` for browser widgets
+    - **Secret key** — `sk_live_*` for your backend (shown **once**)
+  </Step>
+  <Step title="Link a production widget">
+    Under **Integrations → Review widgets**, create a widget with environment **PRODUCTION** and link it to this API client.
+  </Step>
+</Steps>
+
+## Copy-paste production embed
+
+```html
+<script async src="https://cdn.ethioreview.com/widget.js"></script>
+<review-widget
+  data-base-url="https://api.ethioreview.com"
+  data-public-key="pk_live_YOUR_KEY"
+  data-widget-id="YOUR_PRODUCTION_WIDGET_ID"
+></review-widget>
+```
+
+## Environment match
+
+| Key | Widget environment |
+| --- | ------------------ |
+| `pk_live_*` | **PRODUCTION** only |
+| `pk_test_*` | **SANDBOX** only |
+
+Mixing a live key with a sandbox widget (or the reverse) returns `403`.
+
+## One failure mode
+
+**Staging origin still on the production client** — remove localhost and preview URLs from production **allowed origins** before go-live so only real customer traffic can load the widget.
+
+## Next
+
+[Allowed origins →](/api-keys/allowed-origins) · [Widget setup checklist →](/dashboard/widget-setup)

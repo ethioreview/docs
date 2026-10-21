@@ -3,7 +3,7 @@ title: Review widget SDK
 description: NPM packages for embedding EthioReview testimonials.
 ---
 
-Install packages from npm — see [Widget packages](/sdks/review-widget/packages) for the full list.
+Install packages from npm — see [Widget packages](/sdks/review-widget/packages) for the full list. Create keys under **Integrations → API keys** before you wire any package.
 
 ## Packages
 
@@ -15,7 +15,7 @@ Install packages from npm — see [Widget packages](/sdks/review-widget/packages
 | `@ethioreview/review-widget-web-iframe` | iframe helpers |
 | `@ethioreview/review-widget-react` | React components |
 | `@ethioreview/review-widget-next` | Next.js SSR + JSON-LD |
-| `@ethioreview/review-widget-react-native` | WebView URL helper |
+| `@ethioreview/review-widget-react-native` | WebView embed helper |
 
 ## Core client
 
@@ -34,7 +34,10 @@ const data = await client.fetchReviews("org_abc", { limit: 5, minStars: 4 });
 ## Next.js
 
 ```typescript
-import { getWidgetReviewsServerData, buildAggregateRatingJsonLd } from "@ethioreview/review-widget-next";
+import {
+  getWidgetReviewsServerData,
+  buildAggregateRatingJsonLd,
+} from "@ethioreview/review-widget-next";
 
 export async function getStaticProps() {
   const reviews = await getWidgetReviewsServerData({
@@ -45,6 +48,23 @@ export async function getStaticProps() {
   return { props: { reviews } };
 }
 ```
+
+Full guide: [Next.js embed](/integrations/widget/embed-next).
+
+## React Native
+
+```tsx
+import { ReactNativeReviewWidget } from "@ethioreview/review-widget-react-native";
+
+<ReactNativeReviewWidget
+  host="https://cdn.ethioreview.com"
+  baseUrl="https://api.ethioreview.com"
+  publicKey="pk_test_YOUR_KEY"
+  widgetId="YOUR_WIDGET_ID"
+/>
+```
+
+Full guide: [React Native](/sdks/review-widget/react-native).
 
 ## Marketplace pages
 
@@ -61,4 +81,4 @@ Full guide: [Display reviews](/integrations/digital-platform/display-reviews).
 
 Independent semver per package. Pin versions in your `package.json` for reproducible builds.
 
-[Package list →](/sdks/review-widget/packages)
+[Package list →](/sdks/review-widget/packages) · [WordPress & Shopify →](/sdks/review-widget/wordpress-shopify)

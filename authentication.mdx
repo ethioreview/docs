@@ -3,18 +3,28 @@ title: Authentication
 description: API client credentials, publishable keys, and server secrets.
 ---
 
-EthioReview uses **OAuth-style API clients** per organization — not user session tokens for integrations.
+EthioReview uses **API clients** per organization — not end-user session tokens for public integrations.
 
 ## Credential types
 
 | Type | Prefix | Use in | Access |
 | ---- | ------ | ------ | ------ |
-| Publishable key | `pk_live_*` / `pk_test_*` | Browser widget, iframe | Read-only reviews/ratings |
+| Publishable key | `pk_live_*` / `pk_test_*` | Browser widget, iframe, React Native WebView | Read-only reviews/ratings |
 | Secret | `sk_live_*` / `sk_test_*` | Your backend only | Read + write (scoped) |
 
 <Warning>
   Never expose `sk_*` secrets in client-side JavaScript, mobile apps, or public repos. Only the publishable key belongs in embed code.
 </Warning>
+
+## Create keys in the dashboard
+
+| Goal | Path |
+| ---- | ---- |
+| Sandbox keys | **Integrations → API keys** → environment **SANDBOX** → [guide](/api-keys/create-sandbox) |
+| Production keys | **Integrations → API keys** → environment **PRODUCTION** → [guide](/api-keys/create-production) |
+| Marketplace scopes | **Integrations → Digital platform** (or API keys with `marketplace:shops`) |
+
+The plaintext secret is shown **once** at create (and again after rotate).
 
 ## Browser widget auth
 
@@ -24,7 +34,7 @@ X-Widget-Key: pk_live_...
 Origin: https://www.yoursite.com
 ```
 
-The server validates the publishable key and checks `Origin` against the client's `allowedOrigins`.
+The server validates the publishable key and checks `Origin` against the client's allowed origins.
 
 ## Server-to-server auth
 
@@ -37,6 +47,13 @@ Used for:
 
 - Fetching testimonials on your server (SSR, CMS)
 - Ingesting reviews via `POST /api/v1/partner/reviews`
+- Digital platform shop provisioning
+
+Base URL for all environments:
+
+```
+https://api.ethioreview.com/api/v1
+```
 
 ## Scopes
 
@@ -52,15 +69,13 @@ Marketplace partners typically use `marketplace:shops` + `reviews:read`.
 
 ## Managing credentials
 
-| Action | API |
-| ------ | --- |
-| Create | `POST /api/v1/api-clients` |
-| List | `GET /api/v1/api-clients` |
-| Rotate secret | `POST /api/v1/api-clients/{id}/rotate-secret` |
-| Revoke | `POST /api/v1/api-clients/{id}/revoke` |
+| Action | Dashboard | API |
+| ------ | --------- | --- |
+| Create | **Integrations → API keys** | `POST /api/v1/api-clients` |
+| List | **Integrations → API keys** | `GET /api/v1/api-clients` |
+| Rotate secret | Client detail → Rotate | `POST /api/v1/api-clients/{id}/rotate-secret` |
+| Revoke | Client detail → Revoke | `POST /api/v1/api-clients/{id}/revoke` |
 
 Requires org admin permissions and plan feature `api_access`.
 
-Marketplace operators can also create sandbox keys from **Integrations → Digital platform**.
-
-[Environments →](/environments) · [Digital platforms →](/integrations/digital-platform/overview)
+[Allowed origins →](/api-keys/allowed-origins) · [Rotate / revoke →](/api-keys/rotate-revoke) · [Errors →](/errors)

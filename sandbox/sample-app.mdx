@@ -1,0 +1,78 @@
+---
+title: Sample app
+description: Drop a sandbox widget into a local HTML or React page for end-to-end testing.
+---
+
+Use this page as a minimal local harness. Values come from **Integrations → Sandbox test** (or from **API keys** / **Review widgets**).
+
+## Who this is for
+
+Frontend developers validating CORS, layout, and click-through links before staging.
+
+## Prerequisites
+
+<Prerequisites>
+  - `pk_test_*` publishable key
+  - Organization profile ID and/or sandbox `widgetId`
+  - `http://localhost:PORT` on the API client's allowed origins
+</Prerequisites>
+
+## Option A — plain HTML
+
+Save as `index.html` and serve with any static server (`npx serve`, VS Code Live Server, etc.):
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>EthioReview sandbox</title>
+    <script async src="https://cdn.ethioreview.com/widget.js"></script>
+  </head>
+  <body>
+    <h1>Sandbox widget</h1>
+    <review-widget
+      data-base-url="https://api.ethioreview.com"
+      data-public-key="pk_test_YOUR_KEY"
+      data-widget-id="YOUR_SANDBOX_WIDGET_ID"
+    ></review-widget>
+  </body>
+</html>
+```
+
+## Option B — React (Vite)
+
+```bash
+npm install @ethioreview/review-widget-react
+```
+
+```tsx
+import { ReviewWidget } from "@ethioreview/review-widget-react";
+import "@ethioreview/review-widget-react/styles.css";
+
+export default function App() {
+  return (
+    <ReviewWidget
+      baseUrl="https://api.ethioreview.com"
+      publicKey="pk_test_YOUR_KEY"
+      widgetId="YOUR_SANDBOX_WIDGET_ID"
+    />
+  );
+}
+```
+
+## Verify
+
+You should see synthetic review cards. Each card links to a sandbox EthioReview review URL (paths under `/sandbox/organizations/...`).
+
+<Tip>
+  If the page is blank, open DevTools → Network and check for `403` on the widget reviews request. Fix [allowed origins](/api-keys/allowed-origins) first.
+</Tip>
+
+## One failure mode
+
+**Mixing `pk_live_*` into the sample app** — you will either see live data on localhost (if the origin is allowlisted) or hard failures. Keep the sample app on `pk_test_*` until you intentionally promote.
+
+## Next
+
+[Web Component embed →](/integrations/widget/embed-web) · [Create production keys →](/api-keys/create-production)

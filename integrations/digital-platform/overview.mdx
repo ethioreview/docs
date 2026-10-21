@@ -5,6 +5,10 @@ description: Multi-vendor marketplaces with three independent review layers — 
 
 EthioReview supports **digital platform partners** such as multi-vendor ecommerce sites. After approval you provision vendor shops by API and display EthioReview ratings on your own pages.
 
+## Who this is for
+
+Marketplace operators (not single-business widgets). You need EthioReview approval as a digital platform before marketplace partner routes unlock.
+
 ## Three review layers
 
 Ratings stay separate. Shop reviews do not change the platform score. Product reviews do not change the shop score.
@@ -20,11 +24,15 @@ Ratings stay separate. Shop reviews do not change the platform score. Product re
 ```mermaid
 flowchart TD
   Apply[Apply as digital platform] --> Approve[EthioReview approves]
-  Approve --> Sandbox[Create sandbox keys in dashboard]
+  Approve --> Sandbox[Integrations → Digital platform]
   Sandbox --> Upsert[Upsert shops and products]
   Upsert --> Display[Display reviews via SSR API or widget]
   Display --> Live[Create production keys]
 ```
+
+## Dashboard entry
+
+All marketplace setup starts at **Integrations → Digital platform** in the [dashboard](https://app.ethioreview.com). You can also create scoped clients under **Integrations → API keys**.
 
 ## What you get after approval
 
@@ -32,6 +40,10 @@ flowchart TD
 - A **platform digital product** customers can review
 - API credentials with scopes `marketplace:shops` and `reviews:read`
 - Ability to create unclaimed vendor shops your sellers can claim later
+
+## One failure mode
+
+**Calling partner platform routes with a normal `reviews:read` client** — you need `marketplace:shops` (created from **Digital platform** or an API key with that scope).
 
 ## Next steps
 

@@ -9,15 +9,23 @@ The EthioReview **Telegram integration** lets businesses:
 2. **Collect reviews** by posting a touchpoint link (`/collect` in the group)
 3. **Receive notifications** when new reviews are published
 
+## Who this is for
+
+Businesses and agencies that already talk to customers in Telegram and want review collection plus alerts without building a bot.
+
+## Dashboard entry
+
+All setup starts at **Integrations → Telegram** in the [dashboard](https://app.ethioreview.com).
+
 ## How it works
 
 | Step | Where | What happens |
 | ---- | ----- | ------------ |
-| 1 | Dashboard | Generate a one-time link code |
+| 1 | **Integrations → Telegram** | Generate a one-time link code |
 | 2 | Telegram group | Add the EthioReview bot and run `/connect CODE` |
-| 3 | Dashboard | Status shows **CONNECTED** |
+| 3 | **Integrations → Telegram** | Status shows **CONNECTED** |
 | 4 | Telegram group | Admin runs `/collect` to share a review link |
-| 5 | Dashboard (optional) | Enable notifications for new published reviews |
+| 5 | **Integrations → Telegram** | Enable notifications for new published reviews |
 
 ```mermaid
 sequenceDiagram
@@ -42,4 +50,10 @@ sequenceDiagram
 | `/connect <code>` | Group member | Link group using dashboard code |
 | `/collect` | Group admin | Post customer review collection link |
 
-[Connect a group →](/integrations/telegram/connect-group)
+## One failure mode
+
+**Link code expired before `/connect`** — generate a fresh code under **Integrations → Telegram** and try again.
+
+## Next
+
+[Connect a group →](/integrations/telegram/connect-group) · [Telegram setup checklist →](/dashboard/telegram-setup)

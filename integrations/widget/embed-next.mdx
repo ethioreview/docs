@@ -1,0 +1,90 @@
+---
+title: Next.js embed
+description: Server-fetch EthioReview reviews and render AggregateRating JSON-LD in Next.js.
+---
+
+The `@ethioreview/review-widget-next` package fetches widget data on the server and helps you emit schema.org JSON-LD. Pair it with `@ethioreview/review-widget-react` for client UI.
+
+## Who this is for
+
+Next.js apps (App Router or Pages Router) that want SSR review data and SEO-friendly aggregate ratings.
+
+## Dashboard steps
+
+1. **Integrations → API keys** — create a key for the environment you will deploy (`pk_test_*` for preview, `pk_live_*` for production)
+2. Add your Next.js origins (localhost + deploy domains) to **allowed origins**
+3. **Integrations → Review widgets** — create a matching-environment widget and copy `widgetId`
+4. Optional: copy snippets from **Integrations → Sandbox test**
+
+## Install
+
+```bash
+npm install @ethioreview/review-widget-next @ethioreview/review-widget-react
+```
+
+## Copy-paste — App Router
+
+```tsx
+import {
+  getWidgetResolveServerData,
+  buildAggregateRatingJsonLd,
+  toJsonLdScript,
+} from "@ethioreview/review-widget-next";
+import { ReviewWidget } from "@ethioreview/review-widget-react";
+import "@ethioreview/review-widget-react/styles.css";
+
+export default async function ReviewsSection() {
+  const data = await getWidgetResolveServerData({
+    baseUrl: "https://api.ethioreview.com",
+    publicKey: process.env.NEXT_PUBLIC_ETHIOREVIEW_PUBLIC_KEY!,
+    widgetId: process.env.NEXT_PUBLIC_ETHIOREVIEW_WIDGET_ID!,
+  });
+
+  const jsonLd = buildAggregateRatingJsonLd({
+    businessId: process.env.NEXT_PUBLIC_ETHIOREVIEW_ORG_ID!,
+    averageRating: data.ratingSummary?.averageRating ?? 0,
+    reviewCount: data.ratingSummary?.reviewCount ?? 0,
+  });
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: toJsonLdScript(jsonLd) }}
+      />
+      <ReviewWidget
+        baseUrl="https://api.ethioreview.com"
+        publicKey={process.env.NEXT_PUBLIC_ETHIOREVIEW_PUBLIC_KEY!}
+        widgetId={process.env.NEXT_PUBLIC_ETHIOREVIEW_WIDGET_ID!}
+      />
+    </>
+  );
+}
+```
+
+## Server helpers
+
+| Export | Purpose |
+| ------ | ------- |
+| `getWidgetReviewsServerData` | Fetch reviews + rating by `businessId` |
+| `getWidgetResolveServerData` | Resolve a dashboard `widgetId` |
+| `buildAggregateRatingJsonLd` | Build LocalBusiness AggregateRating JSON-LD |
+| `toJsonLdScript` | Serialize JSON for a `<script type="application/ld+json">` tag |
+
+## Environment variables
+
+```bash
+NEXT_PUBLIC_ETHIOREVIEW_PUBLIC_KEY=pk_test_YOUR_KEY
+NEXT_PUBLIC_ETHIOREVIEW_WIDGET_ID=YOUR_WIDGET_ID
+NEXT_PUBLIC_ETHIOREVIEW_ORG_ID=YOUR_ORG_PROFILE_ID
+```
+
+Use `pk_live_*` and a production widget ID in production builds.
+
+## One failure mode
+
+**Server fetch works but client widget is blank** — SSR uses your server IP (no Origin check), while the browser still needs your Next.js origin on the API client's allowlist. Add `http://localhost:3000` and your deploy domain under **Integrations → API keys**.
+
+## Next
+
+[React embed →](/integrations/widget/embed-react) · [iframe embed →](/integrations/widget/embed-iframe)

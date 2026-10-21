@@ -1,38 +1,44 @@
 ---
 title: Quickstart
-description: Create sandbox API credentials and embed your first review widget.
+description: Create sandbox API credentials and embed your first review widget in about 10 minutes.
 ---
 
-Get a working widget on a local HTML page using **sandbox** credentials and synthetic demo reviews.
+Get a working widget on a local page using **sandbox** credentials and synthetic demo reviews.
 
 <Prerequisites>
   - EthioReview organization account with **API access** on your plan
-  - Org admin access to create API clients and widgets
+  - Org admin access to **Integrations**
 </Prerequisites>
 
-## 1. Create sandbox API credentials
+## 1. Create sandbox API keys
 
-In the dashboard: **Integrations → API Clients → Create client**
+In the [dashboard](https://app.ethioreview.com): **Integrations → API keys → Create**
 
 | Field | Example |
 | ----- | ------- |
 | Name | `My site sandbox` |
-| Environment | `SANDBOX` |
-| Allowed origins | `http://localhost:5173`, `https://staging.yoursite.com` |
+| Environment | **SANDBOX** |
+| Allowed origins | `http://localhost:5173`, `http://localhost:3000` |
 
-Save the response immediately — the **secret** (`sk_test_*`) is shown **once**. Copy the **publishable key** (`pk_test_*`) for the browser widget.
+Save immediately — the **secret** (`sk_test_*`) is shown **once**. Copy the **publishable key** (`pk_test_*`) for the browser widget.
 
-## 2. Register a widget (optional)
+Full guide: [Create sandbox keys](/api-keys/create-sandbox).
 
-**Integrations → Widgets → Create**
+## 2. Register a sandbox widget
 
-- Environment: `SANDBOX`
-- Min stars: `4` (top-rated only)
+**Integrations → Review widgets → Create**
+
+- Environment: **SANDBOX** (must match the API client)
 - Link to the sandbox API client you created
+- Min stars: `4` (top-rated only)
 
-Note the **widget ID** if you want a single-call resolve endpoint.
+Note the **widget ID**. You can also skip the registry and pass `businessId` directly in the embed.
 
-## 3. Embed on your site
+## 3. Preview in Sandbox test (optional)
+
+**Integrations → Sandbox test** — select your sandbox client and widget, confirm synthetic reviews render, then copy snippets.
+
+## 4. Embed on your site
 
 <CodeGroup>
 
@@ -41,19 +47,20 @@ Note the **widget ID** if you want a single-call resolve endpoint.
 <review-widget
   data-base-url="https://api.ethioreview.com"
   data-public-key="pk_test_YOUR_KEY"
-  data-business-id="YOUR_ORG_PROFILE_ID"
+  data-widget-id="YOUR_SANDBOX_WIDGET_ID"
 ></review-widget>
 ```
 
 ```tsx React
 import { ReviewWidget } from "@ethioreview/review-widget-react";
+import "@ethioreview/review-widget-react/styles.css";
 
 export function Testimonials() {
   return (
     <ReviewWidget
       baseUrl="https://api.ethioreview.com"
       publicKey="pk_test_YOUR_KEY"
-      businessId="YOUR_ORG_PROFILE_ID"
+      widgetId="YOUR_SANDBOX_WIDGET_ID"
       minStars={4}
     />
   );
@@ -62,21 +69,38 @@ export function Testimonials() {
 
 </CodeGroup>
 
-## 4. Verify
+Need a full local harness? See the [sample app](/sandbox/sample-app).
+
+## 5. Verify
 
 Open your page. You should see **synthetic sandbox testimonials** (not production data). Each card links to a demo EthioReview review URL.
 
 <Tip>
-  Use `GET /api/v1/widgets/businesses/{orgId}/reviews` with header `X-Widget-Key: pk_test_...` to debug outside the browser.
+  Debug outside the browser:
+
+  ```bash
+  curl -H "X-Widget-Key: pk_test_YOUR_KEY" \
+    "https://api.ethioreview.com/api/v1/widgets/businesses/YOUR_ORG_ID/reviews?limit=5"
+  ```
 </Tip>
 
-## 5. Go to production
+## 6. Go to production
 
-1. Create a **PRODUCTION** API client with your live domain in `allowedOrigins`
-2. Create a production widget linked to that client
-3. Swap `pk_test_*` → `pk_live_*` in your embed snippet
+1. Create a **PRODUCTION** API client under **Integrations → API keys** with your live domain in allowed origins
+2. Create a production widget under **Integrations → Review widgets** linked to that client
+3. Swap `pk_test_*` → `pk_live_*` and the production `widgetId` in your embed
 4. Never put `sk_live_*` in frontend code — use it only on your server
 
-Building a multi-vendor marketplace? See the [Digital platforms guide](/integrations/digital-platform/overview).
+[Create production keys →](/api-keys/create-production)
 
-[Credentials deep dive →](/integrations/widget/credentials)
+Building a multi-vendor marketplace? See [Digital platforms](/integrations/digital-platform/overview).
+
+## Common first-hour issues
+
+| Problem | Fix |
+| ------- | --- |
+| CORS / blank widget | Add exact origin under **API keys** → [Allowed origins](/api-keys/allowed-origins) |
+| `403` environment mismatch | Pair `pk_test_*` only with a **SANDBOX** widget |
+| Empty production reviews | Org may have no ACTIVE 4+ star reviews yet — keep testing in sandbox |
+
+[Errors →](/errors) · [Widget credentials →](/integrations/widget/credentials)

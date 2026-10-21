@@ -5,30 +5,37 @@ description: Embed EthioReview top-rated testimonials on any website.
 
 The **Review Widget** displays your organization's best reviews — star rating, reviewer name, avatar, and review text — with each testimonial linking to the full review on EthioReview.
 
+## Who this is for
+
+Marketing sites, product pages, government portals, and marketplace storefronts that want trusted EthioReview social proof without building a custom reviews UI.
+
 ## Features
 
 - Top-rated filter (default 4+ stars, `sort=top`)
 - Public reviewer info only (name, avatar, influencer badge)
-- Click-through to `/organizations/{slug}/reviews/{id}`
+- Click-through to `/organizations/{slug}/reviews/{id}` (sandbox uses `/sandbox/organizations/...`)
 - Production + sandbox environments
-- CORS locked to your `allowedOrigins`
+- CORS locked to your allowed origins
 
 ## Layout catalog
 
-EthioReview offers **12 rating display layouts** — hero banners, badges, breakdown cards, carousels, and more. Browse live previews and pick the right fit for your page.
+EthioReview offers **12 rating display layouts** — hero banners, badges, breakdown cards, carousels, and more.
 
 [Component gallery →](/integrations/widget/component-gallery) · [Widget components reference →](/integrations/widget/components)
 
 ## Integration options
 
-| Method | Best for | Package |
-| ------ | -------- | ------- |
-| Web Component | Any HTML site, WordPress, Shopify | `@ethioreview/review-widget-web-vanilla` |
-| React | React / Vite / CRA | `@ethioreview/review-widget-react` |
-| Next.js | SSR + JSON-LD | `@ethioreview/review-widget-next` |
-| iframe | Strict CSP or legacy CMS | `@ethioreview/review-widget-web-iframe` |
+| Method | Best for | Package / guide |
+| ------ | -------- | --------------- |
+| Web Component | Any HTML site, WordPress, Shopify | [embed-web](/integrations/widget/embed-web) |
+| React | React / Vite / CRA | [embed-react](/integrations/widget/embed-react) |
+| Next.js | SSR + JSON-LD | [embed-next](/integrations/widget/embed-next) |
+| iframe | Strict CSP or legacy CMS | [embed-iframe](/integrations/widget/embed-iframe) |
+| React Native | Mobile WebView | [react-native SDK](/sdks/review-widget/react-native) |
 
 ## Public API endpoints
+
+Base URL: `https://api.ethioreview.com/api/v1`
 
 | Method | Path | Auth |
 | ------ | ---- | ---- |
@@ -38,12 +45,30 @@ EthioReview offers **12 rating display layouts** — hero banners, badges, break
 
 ## Dashboard setup
 
-1. **Integrations → API Clients** — create client, copy `pk_*` key
-2. **Integrations → Widgets** — configure layout, min stars, theme
-3. Copy embed snippet from dashboard or use SDK docs below
+1. **Integrations → API keys** — create client, copy `pk_*` key (secret shown once)
+2. **Integrations → Review widgets** — configure layout, min stars, link matching-environment client
+3. **Integrations → Sandbox test** — preview and copy snippets (sandbox only)
+4. Paste into your site or use an SDK guide below
 
-[Credentials →](/integrations/widget/credentials) · [Web embed →](/integrations/widget/embed-web)
+## Copy-paste starter
+
+```html
+<script async src="https://cdn.ethioreview.com/widget.js"></script>
+<review-widget
+  data-base-url="https://api.ethioreview.com"
+  data-public-key="pk_test_YOUR_KEY"
+  data-widget-id="YOUR_WIDGET_ID"
+></review-widget>
+```
+
+## One failure mode
+
+**Blank widget with CORS errors** — add your exact site origin under **Integrations → API keys**. See [Allowed origins](/api-keys/allowed-origins).
 
 ## Marketplace pages
 
 Multi-vendor partners embed the widget on **platform** and **shop** pages (`businessId` = marketplace or vendor org, `pk_test_*` in sandbox). Product SKU pages should use the partner SSR API so ratings stay product-scoped — see [Digital platforms](/integrations/digital-platform/overview).
+
+## Next
+
+[Credentials →](/integrations/widget/credentials) · [Web embed →](/integrations/widget/embed-web)

@@ -1,7 +1,9 @@
 ---
 title: Widget packages
-description: NPM package reference for the review widget monorepo.
+description: NPM package reference for EthioReview review widget SDKs.
 ---
+
+Install only the packages you need. All public widget calls use base URL `https://api.ethioreview.com` (or `https://api.ethioreview.com/api/v1` for REST paths) with a publishable key from **Integrations → API keys**.
 
 ## @ethioreview/review-widget-core-client
 
@@ -11,30 +13,49 @@ Shared types and HTTP client.
 - Types: `WidgetReview`, `WidgetReviewsResponse`, `WidgetAuthor`
 - Sends `X-Widget-Key` header automatically
 
+## @ethioreview/review-widget-core
+
+Re-exports core client helpers plus `WidgetApiClient` and embed snippet builders (`buildReactEmbedSnippet`, and related utilities).
+
 ## @ethioreview/review-widget-web-vanilla
 
 - `ReviewWidgetElement` — custom element `<review-widget>`
 - `registerReviewWidget()` — register custom element
 - `buildScriptEmbedSnippet()` — copy-paste HTML
 
+CDN script: `https://cdn.ethioreview.com/widget.js`
+
 ## @ethioreview/review-widget-react
 
-- `ReviewWidget` — full widget
-- `TestimonialCard` — single linked review
-- `RatingSummary`, `ReviewList`
+- `ReviewWidget` — data-fetching container with layout support
+- Layout components (`HeroReviewBanner`, `TrustScoreSummary`, …)
+- `createReviewWidgetConfig` — typed config from env vars
+- Stylesheet: `@ethioreview/review-widget-react/styles.css`
+
+## @ethioreview/review-widget-next
+
+- `getWidgetReviewsServerData` — SSR fetch by `businessId`
+- `getWidgetResolveServerData` — SSR resolve by `widgetId`
+- `buildAggregateRatingJsonLd` / `toJsonLdScript` — SEO helpers
+
+See [Next.js embed](/integrations/widget/embed-next).
 
 ## @ethioreview/review-widget-web-iframe
 
 - `buildIframeSnippet()`
 - `attachIframeResizeListener()`
-- `buildPostMessage()` — `resize`, `loaded`, `navigate`
+- Frame URL: `https://cdn.ethioreview.com/widget-frame.html`
 
-## Samples
+## @ethioreview/review-widget-react-native
 
-Use the embed guides for copy-paste examples:
+- `ReactNativeReviewWidget` — WebView wrapper
+- `getWidgetWebViewUrl` — build frame URL
+
+See [React Native](/sdks/review-widget/react-native).
+
+## Guides
 
 - [Web Component embed](/integrations/widget/embed-web)
 - [React embed](/integrations/widget/embed-react)
 - [iframe embed](/integrations/widget/embed-iframe)
-
-[WordPress & Shopify →](/sdks/review-widget/wordpress-shopify)
+- [WordPress & Shopify](/sdks/review-widget/wordpress-shopify)

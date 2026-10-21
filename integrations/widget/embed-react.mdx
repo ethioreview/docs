@@ -3,21 +3,30 @@ title: React embed
 description: ReviewWidget component for React applications.
 ---
 
+`@ethioreview/review-widget-react` is the recommended embed for React SPAs and component libraries. It ships layout components and a data-fetching `ReviewWidget` container.
+
+## Who this is for
+
+React / Vite / CRA apps (use [Next.js embed](/integrations/widget/embed-next) when you need SSR + JSON-LD).
+
+## Dashboard steps
+
+1. **Integrations → API keys** — create `pk_test_*` or `pk_live_*`
+2. Add your app origin to allowed origins
+3. **Integrations → Review widgets** — create a matching widget and copy `widgetId`
+4. Optional: copy the React snippet from **Integrations → Sandbox test**
+
 ## Install
 
 ```bash
 npm install @ethioreview/review-widget-react @ethioreview/review-widget-core
 ```
 
-Import the default stylesheet in your app entry:
-
 ```tsx
 import "@ethioreview/review-widget-react/styles.css";
 ```
 
-## Dashboard widget (recommended)
-
-Use `widgetId` from **Integrations → Widgets**. The backend resolves layout, star filter, and limits from your dashboard config.
+## Copy-paste — dashboard widget
 
 ```tsx
 import { ReviewWidget } from "@ethioreview/review-widget-react";
@@ -34,14 +43,14 @@ export function Testimonials() {
 }
 ```
 
-`publishableKey` is an alias for `publicKey` (matches the dashboard field name).
+`publishableKey` is an alias for `publicKey`.
 
 ## Environment variables
 
 ```bash
 VITE_ETHIOREVIEW_API_URL=https://api.ethioreview.com
-VITE_ETHIOREVIEW_PUBLIC_KEY=pk_live_YOUR_KEY
-VITE_ETHIOREVIEW_WIDGET_ID=YOUR_WIDGET_ID
+VITE_ETHIOREVIEW_PUBLIC_KEY=pk_test_YOUR_KEY
+VITE_ETHIOREVIEW_WIDGET_ID=YOUR_SANDBOX_WIDGET_ID
 ```
 
 ```tsx
@@ -60,8 +69,6 @@ export function Testimonials() {
 
 ## Manual layout (no registry widget)
 
-For custom pages without a dashboard widget record:
-
 ```tsx
 <ReviewWidget
   baseUrl="https://api.ethioreview.com"
@@ -73,53 +80,14 @@ For custom pages without a dashboard widget record:
 />
 ```
 
-## Override dashboard layout
-
-```tsx
-<ReviewWidget
-  baseUrl="https://api.ethioreview.com"
-  publicKey="pk_live_YOUR_KEY"
-  widgetId="YOUR_WIDGET_ID"
-  layout="hero-banner"
-/>
-```
-
-## Copy embed snippet
-
-```ts
-import { buildReactEmbedSnippet } from "@ethioreview/review-widget-core";
-
-console.log(
-  buildReactEmbedSnippet({
-    baseUrl: "https://api.ethioreview.com",
-    publicKey: "pk_live_YOUR_KEY",
-    widgetId: "YOUR_WIDGET_ID",
-    useEnvVars: true,
-  }),
-);
-```
-
 ## Components
 
-Browse the full [widget components](/integrations/widget/components) catalog, or open the [component gallery](/integrations/widget/component-gallery) for **live UI previews** of all 12 layouts.
+Browse the [widget components](/integrations/widget/components) catalog or the [component gallery](/integrations/widget/component-gallery) for live previews of all 12 layouts.
 
-| Export | Purpose |
-| ------ | ------- |
-| `ReviewWidget` | Data-fetching container with auto or explicit layout |
-| `createReviewWidgetConfig` | Typed config from env vars or dashboard values |
-| `HeroReviewBanner` | Full-width hero with CTA |
-| `TrustScoreSummary` | Centered score summary |
-| `RatingBreakdownCard` | Per-star distribution bars |
-| `VerticalStackedCard` | Sidebar-style card |
-| `MicroBadge` | Compact inline badge |
-| `InlineRatingPill` | Minimal footer/nav pill |
-| `ReviewCarouselCard` | Featured review quotes grid |
-| `ComparisonStrip` | KPI stat strip |
-| `CircularScoreWidget` | Radial score gauge |
-| `VerifiedBusinessCard` | Trust badge card |
-| `FloatingBadge` | Sticky corner badge |
-| `DarkPromoCard` | High-contrast promo card |
+## One failure mode
 
-Each review includes `reviewUrl` for navigation to EthioReview.
+**Styles missing** — you forgot to import `@ethioreview/review-widget-react/styles.css` in the app entry. Layouts render unstyled or collapsed until the CSS is loaded.
 
-[Credentials →](/integrations/widget/credentials) · [Widget registry →](/integrations/widget/registry) · [Next.js SSR →](/sdks/review-widget/overview#nextjs)
+## Next
+
+[Next.js embed →](/integrations/widget/embed-next) · [Widget registry →](/integrations/widget/registry)

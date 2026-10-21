@@ -1,9 +1,9 @@
 ---
 title: Environments
-description: Production vs sandbox — separate keys, separate data.
+description: Production vs sandbox — separate keys, separate widgets, separate data.
 ---
 
-Every API client and widget belongs to one environment.
+Every API client and review widget belongs to one environment. Match them deliberately.
 
 ## Production (`PRODUCTION`)
 
@@ -24,24 +24,48 @@ Every API client and widget belongs to one environment.
   Sandbox and production credentials are fully separate. Rotating or revoking one does not affect the other.
 </Check>
 
+## Environment match rule
+
+| Publishable key | Widget environment | Result |
+| --------------- | ------------------ | ------ |
+| `pk_test_*` | **SANDBOX** | Synthetic reviews |
+| `pk_live_*` | **PRODUCTION** | Live reviews |
+| `pk_test_*` | **PRODUCTION** | `403` mismatch |
+| `pk_live_*` | **SANDBOX** | `403` mismatch |
+
+Documented again in [Sandbox overview](/sandbox/overview) and [Errors](/errors).
+
 ## Recommended workflow
 
 ```mermaid
 flowchart TD
-  A[Create SANDBOX client] --> B[Build widget on localhost]
-  B --> C[QA on staging domain]
-  C --> D[Create PRODUCTION client]
-  D --> E[Deploy with pk_live_*]
+  A[Create SANDBOX client] --> B[Create SANDBOX widget]
+  B --> C[Preview in Sandbox test]
+  C --> D[Build on localhost]
+  D --> E[Create PRODUCTION client]
+  E --> F[Create PRODUCTION widget]
+  F --> G[Deploy with pk_live_*]
 ```
 
 ## Dashboard checklist
 
 | Step | Sandbox | Production |
 | ---- | ------- | ---------- |
-| API client | `pk_test_*` + `sk_test_*` | `pk_live_*` + `sk_live_*` |
+| API keys | `pk_test_*` + `sk_test_*` | `pk_live_*` + `sk_live_*` |
 | Allowed origins | localhost, staging | production domain(s) |
-| Widget registry | SANDBOX widget | PRODUCTION widget |
+| Review widgets | SANDBOX widget | PRODUCTION widget |
+| Sandbox test | Preview + copy snippets | N/A (use live site) |
 | Digital platform | Marketplace scopes on sandbox client | Live marketplace SSR + embeds |
 | Telegram | Optional test group | Live customer group |
 
-[Quickstart →](/quickstart) · [Digital platform sandbox →](/integrations/digital-platform/sandbox)
+## Public API base URL
+
+Both environments call:
+
+```
+https://api.ethioreview.com/api/v1
+```
+
+The key and widget environment decide which data you receive — there is no separate sandbox hostname for the public API.
+
+[Quickstart →](/quickstart) · [Create sandbox keys →](/api-keys/create-sandbox) · [Digital platform sandbox →](/integrations/digital-platform/sandbox)

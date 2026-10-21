@@ -1,0 +1,67 @@
+---
+title: Rotate and revoke keys
+description: Rotate secrets safely and revoke compromised API clients.
+---
+
+Rotate when a secret may have leaked. Revoke when an integration is retired or compromised.
+
+## Who this is for
+
+Org admins who manage **Integrations → API keys**.
+
+## Rotate
+
+Rotating regenerates the **secret** and typically the linked **publishable key** / client identifiers for that API client. Update every embed and server env after rotate.
+
+<Steps>
+  <Step title="Open the client">
+    **Integrations → API keys** → select the client.
+  </Step>
+  <Step title="Rotate secret">
+    Choose **Rotate secret** (or equivalent). Copy the new `sk_*` immediately — it is shown once.
+  </Step>
+  <Step title="Update deployments">
+    1. Put the new secret in your secrets manager
+    2. Update browser embeds if the publishable key changed (`pk_*`)
+    3. Redeploy servers that call partner APIs
+    4. Confirm **Sandbox test** or production pages still load
+  </Step>
+</Steps>
+
+### API
+
+```http
+POST /api/v1/api-clients/{id}/rotate-secret
+Authorization: Bearer <dashboard session or admin token>
+```
+
+## Revoke
+
+Revoking immediately blocks both the publishable and secret keys for that client.
+
+<Steps>
+  <Step title="Open the client">
+    **Integrations → API keys** → select the client.
+  </Step>
+  <Step title="Revoke">
+    Confirm **Revoke**. Create a replacement client before or after if the integration must keep running.
+  </Step>
+</Steps>
+
+### API
+
+```http
+POST /api/v1/api-clients/{id}/revoke
+```
+
+<Warning>
+  Revoke does not delete historical review data. It only stops that API client from authenticating.
+</Warning>
+
+## One failure mode
+
+**Rotated key still in an old CDN / CMS cache** — purge caches and update WordPress/Shopify theme settings so visitors stop sending the old `pk_*`.
+
+## Next
+
+[Create sandbox keys →](/api-keys/create-sandbox) · [Authentication →](/authentication)

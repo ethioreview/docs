@@ -5,9 +5,13 @@ description: Receive new review alerts in your linked Telegram group.
 
 When a review is **published** for your organization, EthioReview can push a formatted message to the linked Telegram group.
 
+## Who this is for
+
+Owners and managers who want real-time alerts without checking the dashboard constantly.
+
 ## Enable / disable
 
-**Dashboard → Integrations → Telegram → Notifications toggle**
+**Integrations → Telegram → Notifications** toggle in the [dashboard](https://app.ethioreview.com).
 
 Or via API (authenticated dashboard session):
 
@@ -20,7 +24,7 @@ Content-Type: application/json
 
 ## Requirements
 
-- Group status must be **CONNECTED**
+- Group status must be **CONNECTED** under **Integrations → Telegram**
 - Notifications enabled in the dashboard or via API
 - Your plan includes Telegram notifications (if gated on your account)
 
@@ -37,4 +41,10 @@ Notifications typically include:
   Notifications are delivered by EthioReview-hosted infrastructure. No additional setup is required after linking your group and enabling the toggle.
 </Note>
 
-[Connect a group →](/integrations/telegram/connect-group)
+## One failure mode
+
+**Connected but silent** — confirm the notifications toggle is ON under **Integrations → Telegram**, then publish a test review. If the group was unlinked and reconnected, re-enable the toggle.
+
+## Next
+
+[Connect a group →](/integrations/telegram/connect-group) · [Telegram setup checklist →](/dashboard/telegram-setup)

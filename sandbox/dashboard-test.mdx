@@ -1,0 +1,54 @@
+---
+title: Dashboard Sandbox test
+description: Preview synthetic testimonials and copy embed snippets from the business dashboard.
+---
+
+**Integrations → Sandbox test** is the in-dashboard playground for sandbox widgets. You pick a sandbox API client and sandbox widget, see a live preview, then copy org ID, publishable key, and code snippets.
+
+## Who this is for
+
+Developers who want a working snippet without leaving the [dashboard](https://app.ethioreview.com). Also useful for business owners verifying that sandbox credentials work before handing them to an agency.
+
+## Prerequisites
+
+<Prerequisites>
+  - A **SANDBOX** API client under **Integrations → API keys** (`pk_test_*`)
+  - A **SANDBOX** widget under **Integrations → Review widgets** linked to that client
+  - The dashboard origin added to the client's **allowed origins** so the preview can load
+</Prerequisites>
+
+## Dashboard steps
+
+<Steps>
+  <Step title="Open Sandbox test">
+    Go to **Integrations → Sandbox test**.
+  </Step>
+  <Step title="Select sandbox client and widget">
+    Choose an active sandbox API client and sandbox widget from the dropdowns.
+  </Step>
+  <Step title="Confirm the preview">
+    Synthetic testimonials should render in the business preview panel. They do not change live ratings.
+  </Step>
+  <Step title="Copy developer values">
+    Copy organization ID, publishable key, and HTML / React / iframe snippets for your local app.
+  </Step>
+</Steps>
+
+## Copy-paste (what you typically get)
+
+```html
+<script async src="https://cdn.ethioreview.com/widget.js"></script>
+<review-widget
+  data-base-url="https://api.ethioreview.com"
+  data-public-key="pk_test_YOUR_KEY"
+  data-widget-id="YOUR_SANDBOX_WIDGET_ID"
+></review-widget>
+```
+
+## One failure mode
+
+**Empty preview with a warning to create keys** — you still need a sandbox client under **API keys** and a sandbox widget under **Review widgets**. After creating them, add the dashboard site origin to **allowed origins**, then refresh **Sandbox test**.
+
+## Next
+
+Wire the copied snippet into a [local sample app](/sandbox/sample-app), or continue with the [widget quickstart](/quickstart).

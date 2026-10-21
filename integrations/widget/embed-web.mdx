@@ -3,19 +3,31 @@ title: Web Component embed
 description: Embed EthioReview reviews on any HTML site with the review-widget custom element.
 ---
 
+The Web Component is a custom element (`<review-widget>`) you can drop into any HTML page, CMS, or static site.
+
+## Who this is for
+
+Sites without a React toolchain — plain HTML, WordPress, Shopify themes, Webflow custom code, and similar.
+
+## Dashboard steps
+
+1. **Integrations → API keys** — create a key; add your site origin
+2. **Integrations → Review widgets** — create a matching-environment widget (optional but recommended)
+3. **Integrations → Sandbox test** — copy the HTML snippet while testing
+
 ## Install
 
 ```bash
 npm install @ethioreview/review-widget-web-vanilla
 ```
 
-Or load from CDN (when published):
+Or load from CDN:
 
 ```html
-<script async src="https://cdn.ethioreview.com/widget/v1/review-widget.js"></script>
+<script async src="https://cdn.ethioreview.com/widget.js"></script>
 ```
 
-## Register the element
+## Register the element (npm)
 
 ```ts
 import { registerReviewWidget } from "@ethioreview/review-widget-web-vanilla";
@@ -23,11 +35,10 @@ import { registerReviewWidget } from "@ethioreview/review-widget-web-vanilla";
 registerReviewWidget();
 ```
 
-## Dashboard widget (recommended)
-
-Pass `data-widget-id` so the backend resolves layout and filters from the registry:
+## Copy-paste — dashboard widget (recommended)
 
 ```html
+<script async src="https://cdn.ethioreview.com/widget.js"></script>
 <review-widget
   data-base-url="https://api.ethioreview.com"
   data-public-key="pk_live_YOUR_KEY"
@@ -48,22 +59,7 @@ Pass `data-widget-id` so the backend resolves layout and filters from the regist
 ></review-widget>
 ```
 
-## Copy-paste snippet
-
-```ts
-import { buildScriptEmbedSnippet } from "@ethioreview/review-widget-web-vanilla";
-
-const html = buildScriptEmbedSnippet({
-  scriptUrl: "https://cdn.ethioreview.com/widget/v1/review-widget.js",
-  host: "https://api.ethioreview.com",
-  publicKey: "pk_live_YOUR_KEY",
-  widgetId: "YOUR_WIDGET_ID",
-});
-```
-
 ## Telemetry events
-
-Listen for custom events on the element:
 
 ```js
 document.querySelector("review-widget")?.addEventListener("widget-telemetry", (e) => {
@@ -73,12 +69,10 @@ document.querySelector("review-widget")?.addEventListener("widget-telemetry", (e
 
 Events: `onLoad`, `onError`, `onInteraction`.
 
-## Requirements
+## One failure mode
 
-- Publishable key from **Integrations → API Clients**
-- Your site domain in the API client **allowedOrigins** list
-- For `data-widget-id`: a matching widget in **Integrations → Widgets**
+**Script loads but element stays empty** — confirm `data-public-key` is set, the origin is allowlisted, and (when using `data-widget-id`) the widget environment matches the key prefix.
 
-For styled layout components (hero banner, trust score, etc.), use the [React embed](/integrations/widget/embed-react) or compose [layout components](/integrations/widget/components) directly.
+## Next
 
-[Credentials →](/integrations/widget/credentials) · [Widget registry →](/integrations/widget/registry)
+[React embed →](/integrations/widget/embed-react) · [WordPress & Shopify →](/sdks/review-widget/wordpress-shopify)

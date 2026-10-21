@@ -3,9 +3,13 @@ title: Collect reviews in Telegram
 description: Post review collection links to your Telegram group.
 ---
 
-## In Telegram (group admin)
+After the group is connected under **Integrations → Telegram**, group admins can post a review collection link with one bot command.
 
-After the group is connected, a group admin runs:
+## Who this is for
+
+Front-line staff who ask customers for reviews after a visit or delivery.
+
+## In Telegram (group admin)
 
 ```
 /collect
@@ -33,10 +37,16 @@ GET /api/v1/organizations/{organizationProfileId}/telegram/collection-link
 Authorization: Bearer <session>
 ```
 
-Requires an authenticated dashboard session for your organization.
+Requires an authenticated dashboard session for your organization. Day-to-day use stays in Telegram — confirm connection status anytime under **Integrations → Telegram**.
 
 <Note>
   Telegram linking and `/collect` are handled by EthioReview-hosted infrastructure. Use the dashboard or bot commands — no self-hosted bridge is required for standard integrations.
 </Note>
+
+## One failure mode
+
+**`/collect` denied** — the sender must be a Telegram **group admin**. Promote the user or have an admin run the command.
+
+## Next
 
 [Review notifications →](/integrations/telegram/notifications)

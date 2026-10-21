@@ -1,0 +1,56 @@
+---
+title: Create sandbox API keys
+description: Create pk_test_* / sk_test_* credentials for local and staging widget testing.
+---
+
+Sandbox API keys let you embed and call EthioReview with **synthetic demo reviews**. They never change your live ratings.
+
+## Who this is for
+
+Developers and agencies building a first embed, running CI, or QA on a staging domain.
+
+## Dashboard steps
+
+<Steps>
+  <Step title="Open API keys">
+    In the [dashboard](https://app.ethioreview.com), go to **Integrations → API keys**.
+  </Step>
+  <Step title="Create a SANDBOX client">
+    Click **Create** (or **Create API client**). Set:
+
+    | Field | Value |
+    | ----- | ----- |
+    | Name | e.g. `Local sandbox` |
+    | Environment | **SANDBOX** |
+    | Allowed origins | `http://localhost:3000`, staging URLs |
+  </Step>
+  <Step title="Copy credentials once">
+    Save immediately:
+
+    - **Publishable key** — `pk_test_*` (safe for browser embeds)
+    - **Secret key** — `sk_test_*` (server only; shown **once**)
+  </Step>
+</Steps>
+
+<Warning>
+  The plaintext secret is shown only at creation (and again after rotate). Store it in your secrets manager before you close the dialog.
+</Warning>
+
+## Copy-paste smoke test
+
+```bash
+curl -H "X-Widget-Key: pk_test_YOUR_KEY" \
+  "https://api.ethioreview.com/api/v1/widgets/businesses/YOUR_ORG_ID/reviews?limit=5&minStars=4"
+```
+
+You should receive synthetic testimonials in the same JSON shape as production.
+
+## One failure mode
+
+**Secret lost after closing the dialog** — you cannot view `sk_test_*` again. [Rotate the secret](/api-keys/rotate-revoke) to get a new pair, then update every server that used the old secret.
+
+## Next
+
+Create a matching sandbox widget under **Integrations → Review widgets**, then preview it in **Integrations → Sandbox test**.
+
+[Create production keys →](/api-keys/create-production) · [Sandbox overview →](/sandbox/overview)

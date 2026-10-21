@@ -28,7 +28,7 @@
     "primary": {
       "type": "button",
       "label": "Get API keys",
-      "href": "https://app.ethioreview.com"
+      "href": "/api-keys/create-sandbox"
     }
   },
   "navigation": {
@@ -44,7 +44,27 @@
               "introduction",
               "quickstart",
               "authentication",
-              "environments"
+              "environments",
+              "errors"
+            ]
+          },
+          {
+            "group": "API keys",
+            "icon": "key",
+            "pages": [
+              "api-keys/create-sandbox",
+              "api-keys/create-production",
+              "api-keys/allowed-origins",
+              "api-keys/rotate-revoke"
+            ]
+          },
+          {
+            "group": "Sandbox",
+            "icon": "flask",
+            "pages": [
+              "sandbox/overview",
+              "sandbox/dashboard-test",
+              "sandbox/sample-app"
             ]
           },
           {
@@ -57,6 +77,7 @@
               "integrations/widget/credentials",
               "integrations/widget/embed-web",
               "integrations/widget/embed-react",
+              "integrations/widget/embed-next",
               "integrations/widget/embed-iframe",
               "integrations/widget/sandbox",
               "integrations/widget/registry"
@@ -114,6 +135,7 @@
             "pages": [
               "sdks/review-widget/overview",
               "sdks/review-widget/packages",
+              "sdks/review-widget/react-native",
               "sdks/review-widget/wordpress-shopify"
             ]
           }

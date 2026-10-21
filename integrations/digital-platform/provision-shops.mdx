@@ -3,7 +3,11 @@ title: Provision shops and products
 description: Upsert vendor shops and catalog products with external IDs from your marketplace.
 ---
 
-Use your marketplace secret (`sk_test_*` or `sk_live_*`) with scope `marketplace:shops`.
+Use your marketplace secret (`sk_test_*` or `sk_live_*`) with scope `marketplace:shops`. Create credentials from **Integrations → Digital platform** (or **Integrations → API keys** with marketplace scopes).
+
+## Who this is for
+
+Backend engineers syncing vendor storefronts and SKUs into EthioReview.
 
 ## Upsert a shop
 
@@ -65,5 +69,11 @@ Authorization: Bearer sk_test_YOUR_SECRET
 ## Claim flow
 
 Shops start as **unclaimed**. Send the vendor the claim URL from the upsert response. After claim, the shop keeps its EthioReview reviews and parent link to your marketplace.
+
+## One failure mode
+
+**Reusing the same `externalShopId` across two marketplaces** — IDs are scoped per marketplace organization. Collisions only happen inside your own platform; use stable vendor IDs from your database.
+
+## Next
 
 [Display reviews →](/integrations/digital-platform/display-reviews)

@@ -1,37 +1,34 @@
 ---
-title: Sandbox testing
-description: Test widget embeds with sandbox API clients and widgets before production.
+title: Widget sandbox notes
+description: Environment rules for sandbox widget embeds — see the Sandbox guides for the full workflow.
 ---
 
-Use the **sandbox environment** to develop and QA widget embeds without affecting live review data.
+This page summarizes **widget-specific** sandbox rules. For the full sandbox workflow (dashboard preview and sample app), use the Sandbox group:
 
-## Sandbox credentials
+<CardGroup cols={3}>
+  <Card title="Sandbox overview" icon="flask" href="/sandbox/overview">
+    What stays separate between sandbox and production.
+  </Card>
+  <Card title="Dashboard Sandbox test" icon="play" href="/sandbox/dashboard-test">
+    Live preview and copy snippets.
+  </Card>
+  <Card title="Sample app" icon="code" href="/sandbox/sample-app">
+    Local HTML / React harness.
+  </Card>
+</CardGroup>
 
-Create a sandbox API client in **Integrations → API Clients** with environment set to **Sandbox**.
+## Who this is for
 
-| Credential | Sandbox format |
-| ---------- | -------------- |
-| Publishable key | `pk_test_*` |
-| Secret key | `sk_test_*` |
+Integrators already reading the widget guides who need a quick reminder of key ↔ widget matching.
 
-Sandbox clients return mock review data from the EthioReview API — no production reviews are exposed.
+## Dashboard steps
 
-## Sandbox widgets
+1. **Integrations → API keys** — create a **SANDBOX** client (`pk_test_*`)
+2. **Integrations → Review widgets** — create a **SANDBOX** widget linked to that client
+3. **Integrations → Sandbox test** — preview and copy snippets
+4. Add `http://localhost:PORT` to allowed origins
 
-Create widgets with environment **Sandbox** in **Integrations → Widgets**.
-
-Rules:
-
-- `pk_test_*` only resolves sandbox widgets
-- `pk_live_*` only resolves production widgets
-- Mixing keys and widget environments returns `403 Forbidden`
-
-## Local development
-
-1. Create a sandbox API client
-2. Add `http://localhost:3000` (and your dev port) to **allowedOrigins**
-3. Create a sandbox widget and copy `widgetId`
-4. Embed with sandbox credentials:
+## Copy-paste
 
 ```tsx
 <ReviewWidget
@@ -41,32 +38,16 @@ Rules:
 />
 ```
 
-## Environment variables
+## Rules
 
-```bash
-VITE_ETHIOREVIEW_API_URL=https://api.ethioreview.com
-VITE_ETHIOREVIEW_PUBLIC_KEY=pk_test_YOUR_KEY
-VITE_ETHIOREVIEW_WIDGET_ID=YOUR_SANDBOX_WIDGET_ID
-```
+- `pk_test_*` only resolves sandbox widgets
+- `pk_live_*` only resolves production widgets
+- Mixing keys and widget environments returns `403 Forbidden`
 
-```tsx
-import { createReviewWidgetConfig, ReviewWidget } from "@ethioreview/review-widget-react";
+## One failure mode
 
-const config = createReviewWidgetConfig({
-  baseUrl: import.meta.env.VITE_ETHIOREVIEW_API_URL,
-  publicKey: import.meta.env.VITE_ETHIOREVIEW_PUBLIC_KEY,
-  widgetId: import.meta.env.VITE_ETHIOREVIEW_WIDGET_ID,
-});
+**Production widget ID pasted into a sandbox snippet** — resolve fails with environment mismatch. Create a dedicated sandbox widget under **Review widgets**.
 
-<ReviewWidget {...config} />
-```
+## Next
 
-## Go live
-
-1. Create a production API client (`pk_live_*`)
-2. Add production domains to **allowedOrigins**
-3. Create production widgets or clone sandbox config
-4. Swap env vars to `pk_live_*` and production `widgetId`
-5. Remove sandbox keys from production builds
-
-[Credentials →](/integrations/widget/credentials) · [Widget registry →](/integrations/widget/registry)
+[Sandbox overview →](/sandbox/overview) · [Create production keys →](/api-keys/create-production)

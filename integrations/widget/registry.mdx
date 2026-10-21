@@ -3,43 +3,46 @@ title: Widget registry
 description: Create dashboard widgets and embed them with widgetId resolve.
 ---
 
-The **widget registry** stores layout configuration for each embed. Integrators reference a widget by `widgetId`; the backend returns reviews, rating data, and dashboard settings in one call.
+The **widget registry** stores layout configuration for each embed. You reference a widget by `widgetId`; the backend returns reviews, rating data, and dashboard settings in one call.
 
-## Setup flow
+## Who this is for
+
+Teams that want layout, min-stars, and limits managed in the dashboard instead of hard-coded in every site.
+
+## Dashboard steps
 
 ```mermaid
 flowchart LR
-  A[Create API client] --> B[Set allowedOrigins]
-  B --> C[Copy pk_live key]
-  C --> D[Create widget]
+  A[Create API key] --> B[Set allowed origins]
+  B --> C[Copy pk_* key]
+  C --> D[Create review widget]
   D --> E[Copy widgetId]
   E --> F[Embed on your site]
 ```
 
-### 1. Create an API client
+### 1. Create an API key
 
-In the dashboard: **Integrations → API Clients → Create**.
+**Integrations → API keys → Create**.
 
-- Set **allowedOrigins** to every domain that will host the widget
+- Set **allowed origins** to every domain that will host the widget
 - Copy the **publishable key** (`pk_live_*` or `pk_test_*`)
+- Match environment to how you will test or ship
 
-### 2. Create a widget
+### 2. Create a review widget
 
-**Integrations → Widgets → Create**.
+**Integrations → Review widgets → Create**.
 
 | Field | Purpose |
 | ----- | ------- |
 | **Name** | Internal label |
 | **Type** | `BADGE`, `CAROUSEL`, `TESTIMONIAL`, `GRID`, or `LIST` — maps to a default layout |
-| **Environment** | Must match your API client (`PRODUCTION` or `SANDBOX`) |
+| **Environment** | Must match your API client (**PRODUCTION** or **SANDBOX**) |
 | **Min stars** | Lowest rating to include (default 4) |
 | **Config** | Optional JSON — set `layout` to override the default (e.g. `"trust-score"`) |
 
-Copy the **widget ID** from the widget detail page.
+Copy the **widget ID** from the widget detail page. Optionally preview under **Integrations → Sandbox test**.
 
 ### 3. Embed on your site
-
-**React (recommended):**
 
 ```tsx
 import { ReviewWidget } from "@ethioreview/review-widget-react";
@@ -52,10 +55,8 @@ import "@ethioreview/review-widget-react/styles.css";
 />
 ```
 
-**Web Component:**
-
 ```html
-<script async src="https://cdn.ethioreview.com/widget/v1/review-widget.js"></script>
+<script async src="https://cdn.ethioreview.com/widget.js"></script>
 <review-widget
   data-base-url="https://api.ethioreview.com"
   data-public-key="pk_live_YOUR_KEY"
@@ -65,11 +66,7 @@ import "@ethioreview/review-widget-react/styles.css";
 
 ## Resolve endpoint
 
-`GET /api/v1/widgets/resolve/{widgetId}` returns:
-
-- Widget metadata (`type`, `minStars`, `config`)
-- Paginated reviews
-- `ratingSummary` with star distribution
+`GET /api/v1/widgets/resolve/{widgetId}` returns widget metadata, paginated reviews, and `ratingSummary`.
 
 Auth: `X-Widget-Key` header with your publishable key.
 
@@ -85,19 +82,10 @@ Auth: `X-Widget-Key` header with your publishable key.
 
 Override with `config.layout` in the dashboard or the React `layout` prop.
 
-## Generate embed snippet
+## One failure mode
 
-Use `buildReactEmbedSnippet` from `@ethioreview/review-widget-core`:
+**Widget created in PRODUCTION but embed still uses `pk_test_*`** — resolve returns `403` environment mismatch. Create a sandbox widget for local work, or switch the embed to `pk_live_*`.
 
-```ts
-import { buildReactEmbedSnippet } from "@ethioreview/review-widget-core";
+## Next
 
-const snippet = buildReactEmbedSnippet({
-  baseUrl: "https://api.ethioreview.com",
-  publicKey: "pk_live_YOUR_KEY",
-  widgetId: "YOUR_WIDGET_ID",
-  useEnvVars: true,
-});
-```
-
-[Credentials →](/integrations/widget/credentials) · [React embed →](/integrations/widget/embed-react)
+[React embed →](/integrations/widget/embed-react) · [Credentials →](/integrations/widget/credentials)

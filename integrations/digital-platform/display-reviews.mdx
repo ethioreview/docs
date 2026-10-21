@@ -3,7 +3,11 @@ title: Display platform, shop, and product reviews
 description: SSR partner APIs and widget embeds for each review layer.
 ---
 
-Choose the display path that fits each page. Keep layers separate so customers see the right rating.
+Choose the display path that fits each page. Keep layers separate so customers see the right rating. Credentials come from **Integrations → Digital platform** or **Integrations → API keys**.
+
+## Who this is for
+
+Frontend and SSR teams rendering marketplace homepage, seller, and product pages.
 
 ## Platform (marketplace homepage)
 
@@ -86,4 +90,10 @@ export function ShopReviews({ orgId }: { orgId: string }) {
 
 Use `pk_test_*` in development. See [Sandbox](/integrations/digital-platform/sandbox).
 
-[SDK overview →](/sdks/review-widget/overview)
+## One failure mode
+
+**Showing platform ratings on a product page** — customers see the wrong score. Always call the product-scoped partner endpoints for SKU pages.
+
+## Next
+
+[SDK overview →](/sdks/review-widget/overview) · [Digital platform setup →](/dashboard/digital-platform-setup)

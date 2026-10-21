@@ -3,12 +3,14 @@ title: Telegram setup checklist
 description: Step-by-step dashboard workflow for Telegram integration.
 ---
 
+All Telegram setup lives under **Integrations → Telegram** in the [dashboard](https://app.ethioreview.com).
+
 <Steps>
   <Step title="Add bot to group">
     Search for the EthioReview bot (see dashboard for `@username`). Add it to your customer or internal feedback group.
   </Step>
   <Step title="Generate link code">
-    Dashboard → **Integrations → Telegram → Generate link code**
+    **Integrations → Telegram → Generate link code**
   </Step>
   <Step title="Connect">
     In the group: `/connect YOUR_CODE` or use the **Add to group** link.
@@ -20,7 +22,7 @@ description: Step-by-step dashboard workflow for Telegram integration.
     As group admin, run `/collect`. Confirm review link opens correctly.
   </Step>
   <Step title="Enable notifications">
-    Toggle notifications ON to receive alerts for new published reviews.
+    Toggle notifications ON under **Integrations → Telegram** to receive alerts for new published reviews.
   </Step>
   <Step title="Train staff">
     Document `/collect` for team members who post review requests after service.
@@ -31,7 +33,7 @@ description: Step-by-step dashboard workflow for Telegram integration.
 
 | Problem | Fix |
 | ------- | --- |
-| `/connect` fails | Code expired — generate a new one |
+| `/connect` fails | Code expired — generate a new one under **Integrations → Telegram** |
 | `/collect` denied | User must be Telegram group admin |
 | No notifications | Confirm notifications are enabled and the group is **CONNECTED** |
 | Wrong org linked | Unlink and reconnect with fresh code |

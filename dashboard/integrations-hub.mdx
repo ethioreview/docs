@@ -1,38 +1,50 @@
 ---
 title: Integrations hub
-description: Where developers and org admins manage widget and Telegram setup.
+description: Where developers and org admins manage API keys, widgets, sandbox, digital platform, and Telegram.
 ---
 
-The **EthioReview dashboard** (separate from this docs site) is where your team performs setup actions. This developer portal explains *how*; the dashboard is where you *do* it.
+The **EthioReview dashboard** (separate from this docs site) is where your team performs setup. This developer portal explains *how*; the dashboard is where you *do* it.
 
-## Integrations tab (org dashboard)
+Open [https://app.ethioreview.com](https://app.ethioreview.com) → **Integrations**.
+
+## Integrations sections
 
 | Section | What you do here |
 | ------- | ---------------- |
-| **API Clients** | Create `pk_*` / `sk_*` credentials, set allowed origins |
-| **Digital platform** | Marketplace sandbox keys, SSR snippets, docs links |
-| **Widgets** | Register embed configs, copy snippets |
-| **Telegram** | Generate link codes, view connection status, get collection URLs |
+| **API keys** | Create **SANDBOX** (`pk_test_*`) or **PRODUCTION** (`pk_live_*`) clients; set allowed origins; rotate/revoke. Secret shown **once**. |
+| **Review widgets** | Register embed configs, link to a matching-environment API client, copy widget IDs |
+| **Sandbox test** | Live preview of synthetic testimonials; copy org ID, publishable key, and HTML/React/iframe snippets |
+| **Digital platform** | Marketplace sandbox keys, scopes (`marketplace:shops`), SSR helpers, docs links |
+| **Telegram** | Generate link codes, view connection status, collection URLs, notifications |
+
+## Environment match
+
+When you create a review widget, its environment must match the API client you link:
+
+- Sandbox widget ↔ `pk_test_*` only
+- Production widget ↔ `pk_live_*` only
+
+**Sandbox test** only lists sandbox clients and sandbox widgets.
 
 ## Link from your product
 
 Point integrators to:
 
-- **Docs**: `https://docs.ethioreview.com` (this Mintlify site)
+- **Docs**: `https://docs.ethioreview.com`
 - **Dashboard**: `https://app.ethioreview.com` → **Integrations**
-- **Marketplace sandbox**: **Integrations → Digital platform**
+- **Get sandbox keys (docs)**: [/api-keys/create-sandbox](/api-keys/create-sandbox)
 
 ## Permissions required
 
-Org **admin** access is typically required to create API clients, register widgets, and link Telegram groups. Exact roles are configured in your EthioReview organization settings.
+Org **admin** access is typically required to create API keys, register widgets, and link Telegram groups. Exact roles are configured in your EthioReview organization settings. Widget and partner APIs also require plan feature `api_access`.
 
 ## Developer vs business user
 
-| Role | Dashboard | Docs |
-| ---- | --------- | ---- |
-| Business owner | Connect Telegram, copy widget snippet | Quickstart |
-| Developer | API clients, allowed origins, server secret | Full API + SDK reference |
-| Marketplace partner | Digital platform sandbox keys | Digital platforms guide |
+| Role | Dashboard focus | Docs focus |
+| ---- | --------------- | ---------- |
+| Business owner | Sandbox test preview, Telegram connect | Quickstart |
+| Developer | API keys, allowed origins, server secret | Full API + SDK reference |
+| Marketplace partner | Digital platform | Digital platforms guide |
 | Agency | Multiple orgs, sandbox → prod promotion | Environments guide |
 
-[Widget setup checklist →](/dashboard/widget-setup) · [Digital platform setup →](/dashboard/digital-platform-setup)
+[Widget setup checklist →](/dashboard/widget-setup) · [Sandbox test →](/sandbox/dashboard-test)

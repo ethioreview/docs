@@ -3,34 +3,40 @@ title: Connect a Telegram group
 description: Link your organization's Telegram group from the dashboard.
 ---
 
+Link one Telegram group to your organization so `/collect` and notifications know where to post.
+
+## Who this is for
+
+Org admins who manage the customer or internal feedback Telegram group.
+
 ## Dashboard steps
 
 <Steps>
   <Step title="Open Integrations → Telegram">
-    Navigate to your organization's integration settings in the EthioReview dashboard.
+    In the [dashboard](https://app.ethioreview.com), open **Integrations → Telegram**.
   </Step>
   <Step title="Generate link code">
     Click **Generate link code**. The API creates a short-lived code and optional **Add to group** deep link.
-    
+
     ```http
     POST /api/v1/organizations/{organizationProfileId}/telegram/link-code
     ```
   </Step>
   <Step title="Add the bot to your group">
-    Add `@YourEthioReviewBot` to the Telegram group (must be admin-capable for `/collect`).
+    Add the EthioReview bot (username shown in the dashboard) to the Telegram group. The bot needs permission to post for `/collect`.
   </Step>
   <Step title="Connect">
     In the group, send:
-    
+
     ```
     /connect YOUR_LINK_CODE
     ```
-    
+
     Or use the **Add to group** URL from the dashboard (handles `/start` payload automatically).
   </Step>
   <Step title="Verify status">
-    Dashboard shows `CONNECTED` with chat title and chat ID.
-    
+    **Integrations → Telegram** shows `CONNECTED` with chat title and chat ID.
+
     ```http
     GET /api/v1/organizations/{organizationProfileId}/telegram
     ```
@@ -58,5 +64,11 @@ DELETE /api/v1/organizations/{organizationProfileId}/telegram
 PATCH /api/v1/organizations/{organizationProfileId}/telegram
 { "enabled": false }
 ```
+
+## One failure mode
+
+**Wrong group linked** — unlink from **Integrations → Telegram**, generate a new code, and reconnect the correct group.
+
+## Next
 
 [Collect reviews →](/integrations/telegram/collect-reviews)

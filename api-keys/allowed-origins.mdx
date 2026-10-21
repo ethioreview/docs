@@ -1,0 +1,59 @@
+---
+title: Allowed origins
+description: Configure which browser origins can call EthioReview with your publishable key.
+---
+
+Every API client has an **allowed origins** list. Browser widget requests must come from a matching origin. Server-to-server calls that use the secret key do not need an origin entry.
+
+## Who this is for
+
+Anyone embedding the review widget in a browser (HTML, React, Next.js, WordPress, Shopify, or iframe).
+
+## Dashboard steps
+
+<Steps>
+  <Step title="Open the API client">
+    Go to **Integrations → API keys** and select the client you use for embeds.
+  </Step>
+  <Step title="Edit allowed origins">
+    Add one origin per line (or as the form accepts). Examples:
+
+    ```
+    http://localhost:3000
+    http://localhost:5173
+    https://staging.yoursite.com
+    https://www.yoursite.com
+    ```
+  </Step>
+  <Step title="Save and retest">
+    Reload your page. If you use **Integrations → Sandbox test**, add the dashboard origin so the live preview can load.
+  </Step>
+</Steps>
+
+## Rules
+
+- Include the **scheme** (`http` or `https`)
+- Include the **port** for localhost (`http://localhost:3000`)
+- Do **not** include a path (`https://www.yoursite.com/reviews` is wrong)
+- Do **not** include a trailing slash
+- An empty allowlist blocks all browser widget traffic
+
+## Copy-paste check
+
+From your browser console or a local page, the widget sends something like:
+
+```http
+GET /api/v1/widgets/businesses/{orgId}/reviews
+X-Widget-Key: pk_test_YOUR_KEY
+Origin: http://localhost:3000
+```
+
+If `Origin` is not on the allowlist, the API returns `403` and the browser reports a CORS error.
+
+## One failure mode
+
+**Preview deploy URLs change every push** (Vercel/Netlify preview hosts). Either add each preview origin, use a stable staging domain, or test with sandbox keys only on localhost until you promote to a fixed staging URL.
+
+## Next
+
+[Rotate or revoke keys →](/api-keys/rotate-revoke) · [Errors →](/errors)
