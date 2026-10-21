@@ -1,25 +1,42 @@
 ---
 title: Sample app
-description: Drop a sandbox widget into a local HTML or React page for end-to-end testing.
+description: Clone the EthioReview widget sample repo and test sandbox embeds end to end.
 ---
 
-Use this page as a minimal local harness. Values come from **Integrations → Sandbox test** (or from **API keys** / **Review widgets**).
+The official sample lives in its **own repository** (not inside the dashboard or widget monorepo):
+
+**https://github.com/ethioreview/er-widget-sample**
+
+It installs the published npm packages and renders React, Web Component, and iframe embeds against sandbox keys.
 
 ## Who this is for
 
-Frontend developers validating CORS, layout, and click-through links before staging.
+Frontend developers and students validating CORS, layout, and click-through links before staging.
 
 ## Prerequisites
 
 <Prerequisites>
-  - `pk_test_*` publishable key
-  - Organization profile ID and/or sandbox `widgetId`
-  - `http://localhost:PORT` on the API client's allowed origins
+  - `pk_test_*` publishable key from **Integrations → API keys**
+  - Sandbox `widgetId` from **Integrations → Review widgets** (or organization profile ID)
+  - `http://localhost:5173` on the API client's allowed origins
 </Prerequisites>
 
-## Option A — plain HTML
+## Clone and run
 
-Save as `index.html` and serve with any static server (`npx serve`, VS Code Live Server, etc.):
+```bash
+git clone https://github.com/ethioreview/er-widget-sample.git
+cd er-widget-sample
+cp .env.example .env
+# set VITE_ETHIOREVIEW_PUBLIC_KEY and VITE_ETHIOREVIEW_WIDGET_ID
+npm install
+npm run dev
+```
+
+Open http://localhost:5173 — you should see the five synthetic sandbox testimonials in both the React and Web Component sections.
+
+Dashboard checklist: [Sandbox test in the dashboard](/sandbox/dashboard-test) · [Create sandbox keys](/api-keys/create-sandbox).
+
+## Option — plain HTML without cloning
 
 ```html
 <!doctype html>
@@ -38,27 +55,6 @@ Save as `index.html` and serve with any static server (`npx serve`, VS Code Live
     ></review-widget>
   </body>
 </html>
-```
-
-## Option B — React (Vite)
-
-```bash
-npm install @ethioreview/review-widget-react
-```
-
-```tsx
-import { ReviewWidget } from "@ethioreview/review-widget-react";
-import "@ethioreview/review-widget-react/styles.css";
-
-export default function App() {
-  return (
-    <ReviewWidget
-      baseUrl="https://api.ethioreview.com"
-      publicKey="pk_test_YOUR_KEY"
-      widgetId="YOUR_SANDBOX_WIDGET_ID"
-    />
-  );
-}
 ```
 
 ## Verify
